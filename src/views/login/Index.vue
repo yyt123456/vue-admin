@@ -67,25 +67,33 @@
 export default {
   data() {
     var checkCode = (rule, value, callback) => {
+      let reg = /^[a-z0-9]{6}$/;
       if (!value) {
         return callback(new Error("验证码不能为空"));
+      } else if (!reg.test(value)) {
+        return callback(new Error("验证码格式错误"));
       } else {
         callback();
       }
     };
     var validateUsername = (rule, value, callback) => {
       // eslint-diable
+      var reg = /^([a-zA-Z]|[0-9])(\w)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
       if (value === "") {
         callback(new Error("请输入用户名"));
+      } else if (!reg.test(value)) {
+        callback(new Error("用户名格式不正确"));
       } else {
         callback();
       }
     };
     var validatePassword = (rule, value, callback) => {
+      let reg = /^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/;
+
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("两次输入密码不一致!"));
+      } else if (!reg.test(value)) {
+        callback(new Error("密码格式错误!"));
       } else {
         callback();
       }
