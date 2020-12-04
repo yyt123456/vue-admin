@@ -3,7 +3,7 @@
     <div class="login-wrap">
       <ul class="menu-tab">
         <li
-          :class="{ current: item.current }"
+          :class="item.current ? 'current' : ''"
           v-for="(item, i) in menuTab"
           :key="i"
           @click="toggleMenu(item)"
@@ -28,7 +28,6 @@ export default {
   mounted() {},
   methods: {
     toggleMenu(item) {
-      console.log(item);
       this.menuTab.forEach(j => {
         j.current = false;
       });
