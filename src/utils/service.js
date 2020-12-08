@@ -1,5 +1,7 @@
 import axios from "axios";
-const BaseUrl = process.env.NODE_ENV === "production" ? "" : "/devApi";
+import { Message } from "element-ui";
+
+const BaseUrl = process.env.NODE_ENV === "production" ? "" : "/";
 const service = axios.create({
   baseUrl: BaseUrl,
   timeout: 600000
@@ -21,7 +23,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   function(response) {
     // 对响应数据做点什么
-    return response;
+    let data = response.data;
+    if (parseInt(data.resCode) !== 0) {
+      Message.warning(data.message);
+      return Promise.reject(data);
+    } else {
+      return response;
+    }
   },
   function(error) {
     // 对响应错误做点什么
