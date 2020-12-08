@@ -1,9 +1,9 @@
-import http from "../utils/http";
+import service from "../utils/service";
 // 验证码
 export function getSms() {
-  http.request({
+  service.request({
     method: "post",
-    url: "/getSms/",
+    url: "devApi/getSms/",
     data: {}
   });
 }

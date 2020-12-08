@@ -1,5 +1,5 @@
 // const path = require("path");
-const server = "http://www.web-jshtml.cn/productapi";
+const SERVER = "http://www.web-jshtml.cn/productapi";
 module.exports = {
   // 基本路径
   publicPath: process.env.NODE_ENV === "production" ? "" : "/",
@@ -58,12 +58,12 @@ module.exports = {
     hot: true, // 开启热加载
     hotOnly: false,
     proxy: {
-      "/api": {
-        target: server,
-        changeOrigin: true,
+      "/devApi": {
+        target: SERVER,
         pathRewrite: {
-          "^/api": ""
-        }
+          "^/devApi": ""
+        },
+        changeOrigin: true
       }
     }, // 设置代理
     overlay: {
