@@ -96,7 +96,8 @@ import {
   validateCodeJs
 } from "../../utils/validate";
 import { ref, onMounted, reactive } from "@vue/composition-api";
-import { GetSms, Register } from "../../api/login";
+import { GetSms, Register, userLogin } from "../../api/login";
+import sha1 from "js-sha1";
 
 export default {
   setup(props, context) {
@@ -178,14 +179,17 @@ export default {
       timer.value = setInterval(() => {
         time--;
         if (time === 0) {
-          clearInterval(timer.value);
-          codeStatus.status = false;
-          codeStatus.text = "获取验证码";
+          clearCountDown();
         } else {
           codeStatus.status = true;
           codeStatus.text = "倒计时" + time + "s";
         }
       }, 1000);
+    };
+    const clearCountDown = () => {
+      clearInterval(timer.value);
+      codeStatus.status = false;
+      codeStatus.text = "获取验证码";
     };
     const getCode = () => {
       if (!ruleForm.username) {
@@ -209,20 +213,41 @@ export default {
     const submitForm = () => {
       context.refs["loginForm"].validate(valid => {
         if (valid) {
-          let data = {
-            username: ruleForm.username,
-            password: ruleForm.password,
-            code: ruleForm.code,
-            module: model.value
-          };
-          Register(data).then(res => {
-            let data = res.data;
-            context.root.$message.success(data.message);
-          });
+          if (model.value === "login") {
+            login();
+          } else {
+            register();
+          }
         } else {
           console.log("error submit!!");
           return false;
         }
+      });
+    };
+    const login = () => {
+      let data = {
+        username: ruleForm.username,
+        password: sha1(ruleForm.password),
+        code: ruleForm.code
+      };
+      userLogin(data).then(res => {
+        let data = res.data;
+        context.root.$message.success(data.message);
+        clearCountDown();
+      });
+    };
+    const register = () => {
+      let data = {
+        username: ruleForm.username,
+        password: sha1(ruleForm.password),
+        code: ruleForm.code,
+        module: model.value
+      };
+      Register(data).then(res => {
+        let data = res.data;
+        context.root.$message.success(data.message);
+        toggleMenu(menuTab[0]);
+        clearCountDown();
       });
     };
     const resetForm = () => {
