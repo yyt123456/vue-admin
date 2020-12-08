@@ -63,7 +63,7 @@
           <el-col :span="16">
             <el-input
               id="code"
-              v-model.number="ruleForm.code"
+              v-model="ruleForm.code"
               type="text"
               minlength="6"
               maxlength="6"
