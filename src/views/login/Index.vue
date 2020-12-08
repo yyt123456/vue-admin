@@ -173,6 +173,7 @@ export default {
       item.current = true;
       model.value = item.type;
       resetForm();
+        clearCountDown();
     };
     const countDown = number => {
       let time = number;
@@ -247,7 +248,6 @@ export default {
         let data = res.data;
         context.root.$message.success(data.message);
         toggleMenu(menuTab[0]);
-        clearCountDown();
       });
     };
     const resetForm = () => {
