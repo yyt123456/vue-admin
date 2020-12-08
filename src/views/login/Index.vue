@@ -173,7 +173,7 @@ export default {
       item.current = true;
       model.value = item.type;
       resetForm();
-        clearCountDown();
+      clearCountDown();
     };
     const countDown = number => {
       let time = number;
