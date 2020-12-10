@@ -35,7 +35,7 @@
         <label for="password">密码</label>
         <el-input
           id="password"
-          type="text"
+          type="password"
           v-model="ruleForm.password"
           minlength="6"
           maxlength="20"
@@ -50,7 +50,7 @@
         <label for="resetPass">重复密码</label>
         <el-input
           id="resetPass"
-          type="text"
+          type="password"
           v-model="ruleForm.passwords"
           minlength="6"
           maxlength="20"
@@ -253,7 +253,12 @@ export default {
     const resetForm = () => {
       context.refs["loginForm"].resetFields();
     };
-    onMounted(() => {});
+    onMounted(() => {
+        if(process.env.NODE_ENV ==='development') {
+            ruleForm.username = 'yyt123@qq.com'
+            ruleForm.password = 'yyt940886'
+        }
+    });
     return {
       menuTab,
       model,
