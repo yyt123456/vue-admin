@@ -101,6 +101,7 @@ import sha1 from "js-sha1";
 
 export default {
   setup(props, context) {
+    console.log(context);
     var checkCode = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("验证码不能为空"));
@@ -231,9 +232,8 @@ export default {
         password: sha1(ruleForm.password),
         code: ruleForm.code
       };
-      userLogin(data).then(res => {
-        let data = res.data;
-        context.root.$message.success(data.message);
+      userLogin(data).then(() => {
+        context.root.$router.push("/console");
         clearCountDown();
       });
     };
@@ -254,10 +254,10 @@ export default {
       context.refs["loginForm"].resetFields();
     };
     onMounted(() => {
-        if(process.env.NODE_ENV ==='development') {
-            ruleForm.username = 'yyt123@qq.com'
-            ruleForm.password = 'yyt940886'
-        }
+      if (process.env.NODE_ENV === "development") {
+        ruleForm.username = "yyt123@qq.com";
+        ruleForm.password = "yyt940886";
+      }
     });
     return {
       menuTab,

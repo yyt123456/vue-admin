@@ -11,9 +11,9 @@ const service = axios.create({
 service.interceptors.request.use(
   function(config) {
     // 在发送请求之前做些什么
-      config.headers['Tokey'] = '123456789'
-      config.headers['userId'] = '123456789'
-      config.headers['sui'] = '123456789'
+    config.headers["Tokey"] = "123456789";
+    config.headers["userId"] = "123456789";
+    config.headers["sui"] = "123456789";
     return config;
   },
   function(error) {

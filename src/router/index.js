@@ -14,6 +14,12 @@ const routes = [
     name: "Login",
     component: () =>
       import(/* webpackChunkName: "Login" */ "../views/login/Index")
+  },
+  {
+    path: "/console",
+    name: "Console",
+    component: () =>
+      import(/* webpackChunkName: "Console" */ "../views/console/Index")
   }
 ];
 
