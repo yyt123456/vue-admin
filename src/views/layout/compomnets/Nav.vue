@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="nav">菜单</div>
 </template>
 <script>
 export default {
@@ -10,4 +10,13 @@ export default {
   methods: {}
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: rgb(64, 158, 255);
+}
+</style>
