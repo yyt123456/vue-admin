@@ -16,7 +16,7 @@ export default {
 .main {
   position: fixed;
   top: 75px;
-  left: 250px;
+  left: $navMenu;
   right: 0;
   bottom: 0;
   -webkit-box-sizing: border-box;

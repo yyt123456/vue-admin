@@ -15,7 +15,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  width: 250px;
+  width: $navMenu;
   height: 100vh;
   background-color: rgb(64, 158, 255);
 }

@@ -14,9 +14,10 @@ export default {
 .header {
   position: fixed;
   top: 0;
-  left: 250px;
+  left: $navMenu;
   right: 0;
   height: 75px;
   -webkit-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 </style>
