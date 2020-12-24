@@ -23,7 +23,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-    .layout {
-        background-color: #f7f7f7;
-    }
+.layout {
+  background-color: #f7f7f7;
+}
 </style>

@@ -276,7 +276,7 @@ export default {
 <style lang="scss" scoped>
 #login {
   height: 100vh;
-  background: #344a5f;
+  background: $themeColor;
 }
 
 .login-wrap {
