@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
-
+import LayOut from "../views/layout/Index";
 const routes = [
   {
     path: "/",
@@ -28,10 +28,10 @@ const routes = [
     name: "Console",
     redirect: "index",
     meta: {
-      name: "控制台"
+      name: "控制台",
+      icon: ""
     },
-    component: () =>
-      import(/* webpackChunkName: "Console" */ "../views/layout/Index"),
+    component: LayOut,
     children: [
       {
         path: "/index",
@@ -48,10 +48,10 @@ const routes = [
     path: "/info",
     name: "Info",
     meta: {
-      name: "信息管理"
+      name: "信息管理",
+      icon: ""
     },
-    component: () =>
-      import(/* webpackChunkName: "Info" */ "../views/layout/Index"),
+    component: LayOut,
     children: [
       {
         path: "/infoIndex",
@@ -79,10 +79,10 @@ const routes = [
     path: "/user",
     name: "User",
     meta: {
-      name: "用户管理"
+      name: "用户管理",
+      icon: ""
     },
-    component: () =>
-      import(/* webpackChunkName: "User" */ "../views/layout/Index"),
+    component: LayOut,
     children: [
       {
         path: "/userIndex",

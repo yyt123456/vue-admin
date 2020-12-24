@@ -11,20 +11,22 @@ module.exports = {
    * webpack配置,see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
    **/
   // chainWebpack: config => {},
-  // configureWebpack: config => {
-  //   config.resolve = { // 配置解析别名
-  //     extensions: ['.js', '.json', '.vue'],
-  //     alias: {
-  //       '@': path.resolve(__dirname, './src'),
-  //       'public': path.resolve(__dirname, './public'),
-  //       'components': path.resolve(__dirname, './src/components'),
-  //       'common': path.resolve(__dirname, './src/common'),
-  //       'api': path.resolve(__dirname, './src/api'),
-  //       'views': path.resolve(__dirname, './src/views'),
-  //       'data': path.resolve(__dirname, './src/data')
-  //     }
-  //   }
-  // },
+  configureWebpack: config => {
+    config.resolve = {
+      // 配置解析别名
+      extensions: [".js", ".json", ".vue"],
+      alias: {
+        // '@': path.resolve(__dirname, './src'),
+        // 'public': path.resolve(__dirname, './public'),
+        // 'components': path.resolve(__dirname, './src/components'),
+        // 'common': path.resolve(__dirname, './src/common'),
+        // 'api': path.resolve(__dirname, './src/api'),
+        // 'views': path.resolve(__dirname, './src/views'),
+        // 'data': path.resolve(__dirname, './src/data')
+        vue: "vue/dist/vue.js"
+      }
+    };
+  },
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: false,
   // css相关配置
