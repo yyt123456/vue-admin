@@ -3,9 +3,9 @@
 }
 .el-submenu .el-menu-item {
   padding-left: 50px !important;
-  &.is-active { background-color: #f56c6c !important; }
+  &.is-active { background-color: $mainColor !important; }
 
 }
 li.el-submenu {
-  &.is-active.is-opened .el-submenu__title{ background-color: #f56c6c !important; }
+  &.is-active.is-opened div{ background-color: $mainColor !important; }
 }
