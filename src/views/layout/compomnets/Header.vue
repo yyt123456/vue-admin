@@ -1,31 +1,41 @@
 <template>
   <div class="header">
     <div class="pull-left header-icon">
-      <svg-icon icon-class="menu" class-name="menu"></svg-icon>
+      <div @click="changeCollapse">
+        <svg-icon icon-class="menu" class-name="menu"></svg-icon>
+      </div>
     </div>
     <div class="pull-right">
       <div class="pull-left">
-        <img
-          src="../../../assets/logo.png"
-          alt=""
-          width="30"
-          class="user-icon"
-        />
+        <div>
+          <img
+            src="../../../assets/logo.png"
+            alt=""
+            width="30"
+            class="user-icon"
+          />
+        </div>
       </div>
-      <div class="user pull-left">管理员</div>
-      <div class="header-icon pull-left">
-        <svg-icon icon-class="exit" class-name="exit"></svg-icon>
+      <div class="user pull-right">管理员</div>
+      <div class="pull-right">
+        <div><svg-icon icon-class="exit" class-name="exit"></svg-icon></div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { onMounted } from "@vue/composition-api";
 export default {
-  data() {
-    return {};
-  },
-  mounted() {},
-  methods: {}
+  setup(props, { root }) {
+    const changeCollapse = () => {
+      console.log(1);
+      root.$store.commit("SET_COLLAPSE");
+    };
+    onMounted(() => {});
+    return {
+      changeCollapse
+    };
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -40,7 +50,6 @@ export default {
   line-height: $headerMenu;
   .header-icon {
     padding: 0 32px;
-    vertical-align: middle;
   }
   svg {
     font-size: 25px;
@@ -49,11 +58,14 @@ export default {
   }
   .user {
     height: 100%;
-    padding: 0 15px;
+    padding: 0 32px;
     border-right: 1px solid #ededed;
   }
   .user-icon {
-    margin-top: 20px;
+    line-height: $headerMenu;
+    box-sizing: border-box;
+    margin-bottom: -6px;
+    margin-right: 10px;
   }
 }
 </style>

@@ -4,8 +4,6 @@
       <img src="../../../assets/logo.png" alt="" width="50" />
     </div>
     <el-menu
-      @open="handleOpen"
-      @close="handleClose"
       :collapse="isCollapse"
       background-color="transparent"
       text-color="#fff"
@@ -35,25 +33,22 @@
   </div>
 </template>
 <script>
-import { ref, onMounted, reactive } from "@vue/composition-api";
+import { onMounted, reactive, computed } from "@vue/composition-api";
 export default {
   name: "navMenu",
   setup(props, { root }) {
     console.log(root);
-    const isCollapse = ref(false);
+    //折叠状态
+    // const isCollapse = ref(false);
+    //路由
     const routes = reactive(root.$router.options.routes);
-    console.log(routes, "routes");
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath);
-    };
+
+    const isCollapse = computed(() => {
+      return root.$store.state.isCollapse;
+    });
     onMounted(() => {});
     return {
       isCollapse,
-      handleOpen,
-      handleClose,
       routes
     };
   }
