@@ -4,7 +4,7 @@
   </svg>
 </template>
 <script>
-import { ref, computed } from "@vue/composition-api";
+import { computed } from "@vue/composition-api";
 export default {
   props: {
     iconClass: {
@@ -39,6 +39,6 @@ export default {
   font-size: 20px;
   /*svg特有属性*/
   fill: currentColor;
-  color: #fff;
+  /*color: #fff;*/
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
   <div class="nav">
+    <div class="nav-icon">
+      <img src="../../../assets/logo.png" alt="" width="50">
+    </div>
     <el-menu
       @open="handleOpen"
       @close="handleClose"
@@ -66,6 +69,10 @@ export default {
   background-color: $themeColor;
   svg {
     margin-right: 10px;
+  }
+  .nav-icon {
+    margin-top: 10px;
+    text-align: center;
   }
 }
 </style>
