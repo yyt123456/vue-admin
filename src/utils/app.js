@@ -15,6 +15,6 @@ export function removeAll() {
 export function setUsername(username) {
   cookies.set(USER_NAME, username);
 }
-export function getUsername(username) {
-    cookies.get(USER_NAME);
+export function getUsername() {
+  cookies.get(USER_NAME);
 }

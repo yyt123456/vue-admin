@@ -8,7 +8,9 @@ const mutations = {
   }
 };
 const actions = {};
-const getters = {};
+const getters = {
+  isCollapse: state => state.isCollapse
+};
 export default {
   state,
   mutations,

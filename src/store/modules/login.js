@@ -12,9 +12,12 @@ const mutations = {
     state.username = username;
   }
 };
+const getters = {
+  username: state => state.username
+};
 const actions = {
   Login(content, data) {
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       userLogin(data)
         .then(res => {
           const { token, username } = res.data.data;
@@ -30,7 +33,6 @@ const actions = {
     });
   }
 };
-const getters = {};
 export default {
   state,
   mutations,
