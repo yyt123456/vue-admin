@@ -232,9 +232,9 @@ export default {
         password: sha1(ruleForm.password),
         code: ruleForm.code
       };
-      context.root.$store.dispatch("Login", data).then(() => {
-        context.root.$router.push("/console");
-        clearCountDown();
+      context.root.$store.dispatch("login/Login", data).then(() => {
+        // context.root.$router.push("/console");
+        // clearCountDown();
       });
     };
     const register = () => {

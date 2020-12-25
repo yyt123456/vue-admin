@@ -1,5 +1,5 @@
 // const path = require("path");
-const SERVER = "http://www.web-jshtml.cn/productapi";
+const server = "http://www.web-jshtml.cn/productapi/token";
 module.exports = {
   // 基本路径
   publicPath: process.env.NODE_ENV === "production" ? "" : "/",
@@ -71,7 +71,7 @@ module.exports = {
     hotOnly: false,
     proxy: {
       "/devApi": {
-        target: SERVER,
+        target: server,
         pathRewrite: {
           "^/devApi": ""
         },
