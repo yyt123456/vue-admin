@@ -18,7 +18,7 @@ export default {
   },
   setup(props, { root }) {
     const isCollapse = computed(() => {
-      return root.$store.state.isCollapse;
+      return root.$store.state.app.isCollapse;
     });
     onMounted(() => {});
     return {

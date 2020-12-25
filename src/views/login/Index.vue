@@ -96,7 +96,7 @@ import {
   validateCodeJs
 } from "../../utils/validate";
 import { ref, onMounted, reactive } from "@vue/composition-api";
-import { GetSms, Register, userLogin } from "../../api/login";
+import { GetSms, Register } from "../../api/login";
 import sha1 from "js-sha1";
 
 export default {
@@ -232,7 +232,7 @@ export default {
         password: sha1(ruleForm.password),
         code: ruleForm.code
       };
-      userLogin(data).then(() => {
+      context.root.$store.dispatch("Login", data).then(() => {
         context.root.$router.push("/console");
         clearCountDown();
       });

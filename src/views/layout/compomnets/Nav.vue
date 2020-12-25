@@ -43,7 +43,7 @@ export default {
     const routes = reactive(root.$router.options.routes);
 
     const isCollapse = computed(() => {
-      return root.$store.state.isCollapse;
+      return root.$store.state.app.isCollapse;
     });
     onMounted(() => {});
     return {
