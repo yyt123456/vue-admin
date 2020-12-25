@@ -5,7 +5,12 @@
     </div>
     <div class="pull-right">
       <div class="pull-left">
-        <img src="../../../assets/logo.png" alt="" width="30" class="user-icon">
+        <img
+          src="../../../assets/logo.png"
+          alt=""
+          width="30"
+          class="user-icon"
+        />
       </div>
       <div class="user pull-left">管理员</div>
       <div class="header-icon pull-left">

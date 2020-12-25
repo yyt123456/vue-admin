@@ -5,7 +5,6 @@
         <router-view></router-view>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -25,19 +24,18 @@ export default {
     height: 100%;
     padding-left: $navMenu + 30;
     padding-top: $headerMenu + 30;
-    padding-right:  30px;
+    padding-right: 30px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     .content {
       width: 100%;
       height: 100%;
       padding-left: 30px;
-      padding-top:  30px;
+      padding-top: 30px;
       box-sizing: border-box;
       -webkit-box-sizing: border-box;
       background-color: #fff;
     }
   }
 }
-
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <div class="nav-icon">
-      <img src="../../../assets/logo.png" alt="" width="50">
+      <img src="../../../assets/logo.png" alt="" width="50" />
     </div>
     <el-menu
       @open="handleOpen"
