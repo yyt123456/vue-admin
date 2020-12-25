@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div :class="isCollapse ? 'layout open' : 'layout close'">
     <LayoutNav></LayoutNav>
     <LayoutHeader></LayoutHeader>
     <LayoutMain></LayoutMain>
@@ -9,16 +9,21 @@
 import LayoutMain from "./compomnets/Main";
 import LayoutNav from "./compomnets/Nav";
 import LayoutHeader from "./compomnets/Header";
+import { onMounted, computed } from "@vue/composition-api";
 export default {
   components: {
     LayoutMain,
     LayoutNav,
     LayoutHeader
   },
-  setup(props, context) {
-    let root = context.root;
-    let ref = context.ref;
-    console.log(root, ref);
+  setup(props, { root }) {
+    const isCollapse = computed(() => {
+      return root.$store.state.isCollapse;
+    });
+    onMounted(() => {});
+    return {
+      isCollapse
+    };
   }
 };
 </script>

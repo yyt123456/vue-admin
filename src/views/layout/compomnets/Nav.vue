@@ -37,7 +37,6 @@ import { onMounted, reactive, computed } from "@vue/composition-api";
 export default {
   name: "navMenu",
   setup(props, { root }) {
-    console.log(root);
     //折叠状态
     // const isCollapse = ref(false);
     //路由
@@ -62,12 +61,23 @@ export default {
   width: $navMenu;
   height: 100vh;
   background-color: $themeColor;
+  @include webkit(transition, all 0.3s ease 0s);
   svg {
     margin-right: 10px;
   }
   .nav-icon {
     margin-top: 10px;
     text-align: center;
+  }
+}
+.layout.open {
+  .nav {
+    width: $navMinWidth;
+  }
+}
+.layout.close {
+  .nav {
+    width: $navMenu;
   }
 }
 </style>

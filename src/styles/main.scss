@@ -4,3 +4,11 @@
 
 .pull-left { float: left };
 .pull-right { float: right };
+
+@mixin webkit($type, $value) {
+  -webkit-#{$type}: #{$value};
+  -moz-#{$type}: #{$value};
+  -p-#{$type}: #{$value};
+  -ms-#{$type}: #{$value};
+  #{$type}: #{$value};
+}

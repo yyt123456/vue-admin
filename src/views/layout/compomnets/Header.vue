@@ -45,9 +45,9 @@ export default {
   left: $navMenu;
   right: 0;
   height: $headerMenu;
-  -webkit-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.1);
   background-color: #fff;
   line-height: $headerMenu;
+  @include webkit(transition, all 0.3s ease 0s);
   .header-icon {
     padding: 0 32px;
   }
@@ -66,6 +66,17 @@ export default {
     box-sizing: border-box;
     margin-bottom: -6px;
     margin-right: 10px;
+  }
+}
+.layout.open {
+  .header {
+    left: $navMinWidth;
+  }
+}
+.layout.close {
+  .header {
+    left: $navMenu;
+    -webkit-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.1);
   }
 }
 </style>
