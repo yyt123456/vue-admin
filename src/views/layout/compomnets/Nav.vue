@@ -64,5 +64,8 @@ export default {
   width: $navMenu;
   height: 100vh;
   background-color: $themeColor;
+  svg {
+    margin-right: 10px;
+  }
 }
 </style>
