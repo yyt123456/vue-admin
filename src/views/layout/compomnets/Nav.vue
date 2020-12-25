@@ -13,7 +13,10 @@
         <el-submenu :key="k" :index="k.toString()" v-if="!i.hidden">
           <!--一级菜单-->
           <template slot="title">
-            <i class="el-icon-location"></i>
+            <svg-icon
+              :iconClass="i.meta.icon"
+              :className="i.meta.icon"
+            ></svg-icon>
             <span slot="title">{{ i.meta.name }}</span>
           </template>
           <!--子菜单-->
