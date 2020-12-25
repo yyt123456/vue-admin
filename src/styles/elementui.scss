@@ -3,9 +3,8 @@
 }
 .el-submenu .el-menu-item {
   padding-left: 50px !important;
-  &.is-active { background-color: $mainColor !important; }
 
 }
-li.el-submenu {
-  &.is-active.is-opened div{ background-color: $mainColor !important; }
+.el-menu-item.is-active {
+  background-color: $mainColor !important;
 }
