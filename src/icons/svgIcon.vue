@@ -15,7 +15,6 @@ export default {
     }
   },
   setup(props) {
-    const msg = ref("123");
     const iconName = computed(() => {
       return `#icon-${props.iconClass}`;
     });
@@ -27,7 +26,6 @@ export default {
       }
     });
     return {
-      msg,
       iconName,
       svgClass
     };
