@@ -41,7 +41,7 @@ export default {
 .layout.open {
   .main {
     .main-content {
-      padding-left: $navMenu - 156;
+      padding-left: $navMenu - ($navMenu - $navMinWidth - 30);
     }
   }
 }
