@@ -28,8 +28,7 @@ import { onMounted } from "@vue/composition-api";
 export default {
   setup(props, { root }) {
     const changeCollapse = () => {
-      console.log(1);
-      root.$store.commit("SET_COLLAPSE");
+      root.$store.commit("app/SET_COLLAPSE");
     };
     onMounted(() => {});
     return {
