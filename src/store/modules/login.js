@@ -4,14 +4,15 @@ const state = {
   token: "",
   username: ""
 };
-const mutations = {};
-const actions = {
+const mutations = {
   SET_TOKEN(content, token) {
     state.token = token;
   },
   SET_USERNAME(content, username) {
     state.username = username;
-  },
+  }
+};
+const actions = {
   Login(content, data) {
     new Promise((resolve, reject) => {
       userLogin(data)
