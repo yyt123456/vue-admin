@@ -1,15 +1,26 @@
 import { userLogin } from "../../api/login";
+import { setToken, setUsername } from "../../utils/app";
 const state = {
-  isCollapse: JSON.parse(sessionStorage.getItem("isCollapse")) || false
+  token: "",
+  username: ""
 };
-const mutations = {
-
-};
+const mutations = {};
 const actions = {
+  SET_TOKEN(content, token) {
+    state.token = token;
+  },
+  SET_USERNAME(content, username) {
+    state.username = username;
+  },
   Login(content, data) {
     new Promise((resolve, reject) => {
       userLogin(data)
         .then(res => {
+          const { token, username } = res.data.data;
+          content.commit("SET_TOKEN", token);
+          content.commit("SET_USERNAME", username);
+          setToken(token);
+          setUsername(username);
           resolve(res);
         })
         .catch(err => {

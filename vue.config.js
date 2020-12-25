@@ -1,5 +1,6 @@
 // const path = require("path");
 const server = "http://www.web-jshtml.cn/productapi/token";
+// const server = "http://www.web-jshtml.cn/vue_admin_api/token";
 module.exports = {
   // 基本路径
   publicPath: process.env.NODE_ENV === "production" ? "" : "/",
