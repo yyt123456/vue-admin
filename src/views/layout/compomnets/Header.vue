@@ -7,7 +7,7 @@
     </div>
     <div class="pull-right">
       <div class="pull-left">
-        <div>
+        <div class="mr20">
           <img
             src="../../../assets/logo.png"
             alt=""
@@ -16,23 +16,37 @@
           />
         </div>
       </div>
-      <div class="user pull-right">管理员</div>
+      <div class="user pull-right">
+        <div @click="exit">
+          <svg-icon icon-class="exit" class-name="exit"></svg-icon>
+        </div>
+      </div>
       <div class="pull-right">
-        <div><svg-icon icon-class="exit" class-name="exit"></svg-icon></div>
+        {{ username }}
       </div>
     </div>
   </div>
 </template>
 <script>
-import { onMounted } from "@vue/composition-api";
+import { onMounted, computed } from "@vue/composition-api";
 export default {
   setup(props, { root }) {
+    const username = computed(() => {
+      return root.$store.state.login.username;
+    });
     const changeCollapse = () => {
       root.$store.commit("app/SET_COLLAPSE");
     };
+    const exit = () => {
+      root.$store.dispatch("login/Exit").then(() => {
+        location.reload();
+      });
+    };
     onMounted(() => {});
     return {
-      changeCollapse
+      changeCollapse,
+      username,
+      exit
     };
   }
 };
@@ -77,5 +91,8 @@ export default {
     left: $navMenu;
     -webkit-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.1);
   }
+}
+.mr20 {
+  margin-right: 20px;
 }
 </style>

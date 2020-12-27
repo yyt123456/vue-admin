@@ -16,5 +16,5 @@ export function setUsername(username) {
   cookies.set(USER_NAME, username);
 }
 export function getUsername() {
-  cookies.get(USER_NAME);
+  return cookies.get(USER_NAME);
 }

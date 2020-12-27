@@ -1,8 +1,8 @@
 import { userLogin } from "../../api/login";
-import { setToken, setUsername } from "../../utils/app";
+import { setToken, setUsername, getUsername, removeAll } from "../../utils/app";
 const state = {
   token: "",
-  username: ""
+  username: getUsername() || ""
 };
 const mutations = {
   SET_TOKEN(content, token) {
@@ -12,9 +12,7 @@ const mutations = {
     state.username = username;
   }
 };
-const getters = {
-  username: state => state.username
-};
+const getters = {};
 const actions = {
   Login(content, data) {
     return new Promise((resolve, reject) => {
@@ -30,6 +28,14 @@ const actions = {
         .catch(err => {
           reject(err);
         });
+    });
+  },
+  Exit({ commit }) {
+    return new Promise(resolve => {
+      removeAll();
+      commit("login/SET_TOKEN", "");
+      commit("login/SET_USERNAME", "");
+      resolve();
     });
   }
 };
