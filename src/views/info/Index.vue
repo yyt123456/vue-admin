@@ -57,7 +57,7 @@
       </el-col>
       <el-col :span="4">
         <el-button type="danger">搜索</el-button>
-        <el-button type="danger">新增</el-button>
+        <el-button type="danger" @click="openDialog">新增</el-button>
       </el-col>
     </el-row>
     <br />
@@ -93,17 +93,19 @@
       ></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small"
+          <el-button @click="deleteItem(scope.row)" type="text" size="small"
             >删除</el-button
           >
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button type="text" size="small" @click="openDialog"
+            >编辑</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
     <br />
     <el-row>
       <el-col :span="12">
-        <el-button size="medium">批量删除</el-button>
+        <el-button size="medium" @click="deleteAll">批量删除</el-button>
       </el-col>
       <el-col :span="12">
         <el-pagination
@@ -119,12 +121,20 @@
         </el-pagination>
       </el-col>
     </el-row>
+    <DialogInfo ref="dialogInfo"></DialogInfo>
   </div>
 </template>
 <script>
 import { ref, reactive, onMounted } from "@vue/composition-api";
+import { global } from "../../utils/global3.0";
+import DialogInfo from "./dialog/index";
 export default {
-  setup(props, { root }) {
+  components: {
+    DialogInfo
+  },
+  setup(props, { root, refs }) {
+    const { str, confirm } = global();
+    console.log(str);
     const value1 = ref("");
     const value2 = ref("");
     const value3 = ref("");
@@ -151,14 +161,46 @@ export default {
       }
     ]);
     const tableData = reactive([{}]);
-    const handleClick = row => {
-      console.log(row);
-    };
     const handleSizeChange = val => {
       console.log(`每页 ${val} 条`);
     };
     const handleCurrentChange = val => {
       console.log(`当前页: ${val}`);
+    };
+    const deleteItem = row => {
+      console.log(row);
+      //vue2.0全局使用
+      // root.confirm({
+      //   content: "确认删除当前信息？",
+      //   fn: confirmDelete,
+      //   id: "123"
+      // });
+
+      //vue3.0全局使用
+      confirm({
+        content: "确认删除当前信息？",
+        fn: confirmDelete,
+        id: "123"
+      });
+    };
+    const deleteAll = () => {
+      //vue2.0全局使用
+      // root.confirm({
+      //   content: "确认删除全部信息？",
+      //   fn: confirmDelete
+      // });
+
+      //vue3.0全局使用
+      confirm({
+        content: "确认删除全部信息？",
+        fn: confirmDelete
+      });
+    };
+    const confirmDelete = id => {
+      console.log(id);
+    };
+    const openDialog = () => {
+      refs["dialogInfo"].show();
     };
     onMounted(() => {
       console.log(root);
@@ -172,9 +214,11 @@ export default {
       value3,
       value4,
       currentPage,
-      handleClick,
+      deleteItem,
+      deleteAll,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+      openDialog
     };
   }
 };
