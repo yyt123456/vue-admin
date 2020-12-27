@@ -3,7 +3,6 @@ import { getToken, removeAll } from "../utils/app";
 import store from "../store/index";
 const whiteRouter = ["/login"];
 router.beforeEach((to, from, next) => {
-  console.log(getToken(), "getToken");
   if (getToken()) {
     if (to.path === "/login") {
       removeAll();

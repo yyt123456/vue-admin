@@ -12,3 +12,16 @@
   -ms-#{$type}: #{$value};
   #{$type}: #{$value};
 }
+
+@mixin labelDom($align, $width, $lineHeight) {
+  label {
+    float:left;
+    line-height: $lineHeight + px;
+    width: $width + px;
+    text-align: $align;
+  }
+  .wrap-content {
+    margin-left: $width + px;
+  }
+}
+

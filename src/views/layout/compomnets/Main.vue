@@ -22,9 +22,9 @@ export default {
   .main-content {
     width: 100%;
     height: 100%;
-    padding-left: $navMenu + 30;
-    padding-top: $headerMenu + 30;
-    padding-right: 30px;
+    padding-left: $navMenu + 20;
+    padding-top: $headerMenu + 20;
+    padding-right: 20px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     @include webkit(transition, all 0.3s ease 0);
@@ -41,14 +41,14 @@ export default {
 .layout.open {
   .main {
     .main-content {
-      padding-left: $navMenu - ($navMenu - $navMinWidth - 30);
+      padding-left: $navMenu - ($navMenu - $navMinWidth - 20);
     }
   }
 }
 .layout.close {
   .main {
     .main-content {
-      padding-left: $navMenu + 30;
+      padding-left: $navMenu + 20;
     }
   }
 }

@@ -2,6 +2,16 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
+// https://www.cnblogs.com/tzwbk/p/13953570.html
+const originalPush = VueRouter.prototype.push;
+const originalReplace = VueRouter.prototype.replace;
+
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err);
+};
+VueRouter.prototype.replace = function push(location) {
+  return originalReplace.call(this, location).catch(err => err);
+};
 import LayOut from "../views/layout/Index";
 const routes = [
   {
