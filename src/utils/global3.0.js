@@ -8,16 +8,19 @@ export function global() {
       cancelButtonText: "取消",
       type: "warning"
     })
-      .then(() => {
-        params.fn && params.fn(params.id);
-        Message.success({
-          type: "success",
-          message: "删除成功!"
-        });
+      .then(action => {
+        if (action === "confirm") {
+          params.fn && params.fn(params.id || "");
+          Message.success({
+            type: "success",
+            message: "删除成功!"
+          });
+        }
       })
       .catch(() => {
-        Message.success({
-          type: "info",
+        params.catchFn && params.catchFn();
+        Message.warning({
+          type: "warning",
           message: "已取消删除"
         });
       });

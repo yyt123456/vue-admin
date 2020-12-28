@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Message } from "element-ui";
-
+import { getToken, getUsername } from "./app";
 const BaseUrl = process.env.NODE_ENV === "production" ? "" : "/";
 const service = axios.create({
   baseUrl: BaseUrl,
@@ -11,9 +11,8 @@ const service = axios.create({
 service.interceptors.request.use(
   function(config) {
     // 在发送请求之前做些什么
-    config.headers["Tokey"] = "123456789";
-    config.headers["userId"] = "123456789";
-    config.headers["sui"] = "123456789";
+    config.headers["Tokey"] = getToken();
+    config.headers["UserName"] = getUsername();
     return config;
   },
   function(error) {

@@ -1,59 +1,80 @@
 <template>
   <div>
-    <el-button type="danger" style="font-size: 14px">分类</el-button>
-    <div style="width: 100%;height: 1px;background-color: #ccc;margin: 20px 0"></div>
+    <el-button type="danger" style="font-size: 14px" @click="addFirst"
+      >添加一级分类</el-button
+    >
+    <div
+      style="width: 100%;height: 1px;background-color: #ccc;margin: 20px 0"
+    ></div>
     <div>
       <el-row :gutter="30">
         <el-col :span="8">
           <div class="category-wrap">
-            <div class="category">
+            <div
+              class="category"
+              v-for="category in categoryList.item"
+              :key="category.id"
+            >
               <h4>
                 <svg-icon icon-class="plus"></svg-icon>
-                <span>新闻</span>
+                <span>{{ category.category_name }}</span>
                 <div class="button-group">
-                  <el-button type="danger" size="mini">编辑</el-button>
+                  <el-button
+                    type="danger"
+                    size="mini"
+                    @click="editCategory(category)"
+                    >编辑</el-button
+                  >
                   <el-button type="success" size="mini">添加子集</el-button>
-                  <el-button type="primary" size="mini">删除</el-button>
+                  <el-button
+                    type="primary"
+                    size="mini"
+                    @click="deleteCategory(category)"
+                    >删除</el-button
+                  >
                 </div>
               </h4>
-              <ul>
-                <li>
-                  国内
+              <ul v-if="category.children">
+                <li v-for="item in category.children" :key="item.id">
+                  {{ item.category_name }}
                   <div class="button-group">
                     <el-button type="danger" size="mini">编辑</el-button>
                     <el-button type="primary" size="mini">删除</el-button>
                   </div>
                 </li>
-                <li>国内</li>
-                <li>国内</li>
-              </ul>
-            </div>
-            <div class="category">
-              <h4><svg-icon icon-class="plus"></svg-icon>新闻</h4>
-              <ul>
-                <li>国内</li>
-                <li>国内</li>
-                <li>国内</li>
               </ul>
             </div>
           </div>
         </el-col>
         <el-col :span="16">
           <h4 class="menu-title">一级分类编辑</h4>
-          <br>
+          <br />
           <el-form
             label-width="142px"
-            :model="formLabelAlign"
+            :model="form"
             style="width: 410px"
+            ref="category"
           >
-            <el-form-item label="一级分类名称">
-              <el-input v-model="formLabelAlign.name"></el-input>
+            <el-form-item label="一级分类名称" v-model="first_input">
+              <el-input
+                v-model="form.categoryName"
+                :disabled="status.first"
+              ></el-input>
             </el-form-item>
-            <el-form-item label="二级分类名称">
-              <el-input v-model="formLabelAlign.region"></el-input>
+            <el-form-item label="二级分类名称" v-if="second_input">
+              <el-input
+                v-model="form.secCategoryName"
+                :disabled="status.second"
+              ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="danger">确定</el-button>
+              <el-button
+                type="danger"
+                @click="submit"
+                :loading="loading"
+                :disabled="status.submit"
+                >确定</el-button
+              >
             </el-form-item>
           </el-form>
         </el-col>
@@ -63,16 +84,138 @@
 </template>
 <script>
 import { ref, reactive, onMounted } from "@vue/composition-api";
+import {
+  AddFirstategory,
+  GetCategory,
+  DeleteCategory,
+  EditCategory
+} from "../../api/news";
+import { global } from "../../utils/global3.0";
 export default {
-  setup() {
-    const formLabelAlign = reactive({
-      name: "",
-      region: "",
-      type: ""
+  setup(props, { root }) {
+    const { confirm } = global();
+    const first_input = ref(true);
+    const second_input = ref(true);
+    const loading = ref(false);
+    const submitType = ref("");
+    const currentData = reactive({
+      categoryName: "",
+      id: ""
     });
-    onMounted(() => {});
+    const status = reactive({
+      first: true,
+      second: true,
+      submit: true
+    });
+    const categoryId = ref("");
+    const form = reactive({
+      categoryName: "",
+      secCategoryName: ""
+    });
+    const categoryList = reactive({
+      item: []
+    });
+    const getCategory = () => {
+      GetCategory().then(res => {
+        const { data } = res.data.data;
+        categoryList.item = data;
+        loading.value = false;
+        form.categoryName = "";
+        form.secCategoryName = "";
+      });
+    };
+    const submit = () => {
+      if (!form.categoryName) {
+        root.$message.warning("分类名不能为空");
+        return;
+      }
+      let data;
+      loading.value = true;
+      if (submitType.value === "add") {
+        data = {
+          categoryName: form.categoryName
+        };
+        AddFirstategory(data)
+          .then(res => {
+            root.$message({
+              type: "success",
+              message: res.data.message
+            });
+            getCategory();
+          })
+          .catch(err => {
+            console.log(err);
+            loading.value = false;
+            form.categoryName = "";
+            form.secCategoryName = "";
+          });
+      } else if (submitType.value === "edit") {
+        data = {
+          id: currentData.id,
+          categoryName: form.categoryName
+        };
+        EditCategory(data)
+          .then(res => {
+            root.$message({
+              type: "success",
+              message: res.data.message
+            });
+            getCategory();
+          })
+          .catch(err => {
+            console.log(err);
+            loading.value = false;
+          });
+      }
+    };
+
+    const addFirst = () => {
+      first_input.value = true;
+      second_input.value = false;
+      status.first = false;
+      status.submit = false;
+      form.categoryName = "";
+      submitType.value = "add";
+    };
+    const editCategory = category => {
+      first_input.value = true;
+      second_input.value = false;
+      status.first = false;
+      status.submit = false;
+      form.categoryName = category.category_name;
+      currentData.id = category.id;
+      submitType.value = "edit";
+    };
+    const deleteCategory = category => {
+      categoryId.value = category.id;
+      confirm({
+        content: "确认删除当前信息？",
+        fn: deleteItem,
+        catchFn: () => {
+          categoryId.value = "";
+        }
+      });
+    };
+    const deleteItem = () => {
+      DeleteCategory({ categoryId: categoryId.value }).then(() => {
+        getCategory();
+      });
+    };
+    onMounted(() => {
+      getCategory();
+    });
     return {
-      formLabelAlign
+      loading,
+      first_input,
+      second_input,
+      form,
+      categoryList,
+      status,
+      categoryId,
+      addFirst,
+      editCategory,
+      submit,
+      deleteCategory
     };
   }
 };
