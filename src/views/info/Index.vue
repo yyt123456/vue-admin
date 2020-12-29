@@ -210,7 +210,7 @@ export default {
     };
     const handleSizeChange = val => {
       tableData.pageSize = val;
-        getList();
+      getList();
     };
     const handleCurrentChange = val => {
       tableData.pageNumber = val;
