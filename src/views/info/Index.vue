@@ -115,7 +115,7 @@
       </el-col>
       <el-col :span="12">
         <el-pagination
-          :current-page="currentPage"
+          :current-page="tableData.pageNumber"
           :page-sizes="[5, 10, 20, 50, 100]"
           layout="total,sizes,prev, pager, next,jumper"
           :total="tableData.total"
@@ -147,7 +147,6 @@ export default {
     const value3 = ref("");
     const value4 = ref("");
     const deleteId = ref("");
-    const currentPage = ref(1);
     const options = reactive({
       category: []
     });
@@ -170,10 +169,6 @@ export default {
       pageNumber: 1
     });
     const search = () => {
-      // console.log(value1.value)
-      // console.log(value2.value)
-      // console.log(value3.value)
-      // console.log(value4.value)
       getList();
     };
     const formatterDate = row => {
@@ -204,7 +199,6 @@ export default {
       if (value3.value) {
         data[value3.value] = value4.value;
       }
-      console.log(data);
       return data;
     };
     const getList = () => {
@@ -216,7 +210,7 @@ export default {
     };
     const handleSizeChange = val => {
       tableData.pageSize = val;
-      getList();
+        getList();
     };
     const handleCurrentChange = val => {
       tableData.pageNumber = val;
@@ -278,7 +272,6 @@ export default {
       value2,
       value3,
       value4,
-      currentPage,
       getList,
       search,
       deleteItem,
