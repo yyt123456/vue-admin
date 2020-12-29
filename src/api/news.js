@@ -1,5 +1,13 @@
 import service from "../utils/service";
 
+export function AddInfo(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/news/add/",
+    data: data
+  });
+}
+
 export function AddFirstategory(data) {
   return service.request({
     method: "post",
@@ -8,6 +16,13 @@ export function AddFirstategory(data) {
   });
 }
 
+export function GetList(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/news/getList/",
+    data: data
+  });
+}
 export function GetCategory(data) {
   return service.request({
     method: "post",

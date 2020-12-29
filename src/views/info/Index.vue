@@ -3,14 +3,14 @@
     <el-row :gutter="16">
       <el-col :span="4">
         <div class="label-wrap category">
-          <label for="type">类型:</label>
+          <label for="type">分类:</label>
           <div class="wrap-content" id="type">
             <el-select v-model="value1" placeholder="请选择">
               <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in options.category"
+                :key="item.id"
+                :label="item.category_name"
+                :value="item.id"
               >
               </el-option>
             </el-select>
@@ -38,7 +38,7 @@
           <div class="wrap-content" id="keywords">
             <el-select v-model="value3" placeholder="请选择">
               <el-option
-                v-for="item in options1"
+                v-for="item in options1.list"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -61,7 +61,7 @@
       </el-col>
     </el-row>
     <br />
-    <el-table :data="tableData" border>
+    <el-table :data="tableData.list" border>
       <el-table-column
         type="selection"
         width="45"
@@ -69,19 +69,19 @@
       ></el-table-column>
       <el-table-column
         align="center"
-        prop="date"
+        prop="title"
         label="标题"
         width="350"
       ></el-table-column>
       <el-table-column
         align="center"
-        prop="date"
+        prop="categoryId"
         label="类型"
         width="200"
       ></el-table-column>
       <el-table-column
         align="center"
-        prop="date"
+        prop="createDate"
         label="日期"
         width="200"
       ></el-table-column>
@@ -110,23 +110,24 @@
       <el-col :span="12">
         <el-pagination
           :current-page="currentPage"
-          :page-sizes="[10, 20, 50, 100]"
+          :page-sizes="[5, 10, 20, 50, 100]"
           layout="total,sizes,prev, pager, next,jumper"
-          :total="50"
+          :total="tableData.total"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :page-size="20"
+          :page-size="tableData.pageSize"
           class="pull-right"
         >
         </el-pagination>
       </el-col>
     </el-row>
-    <DialogInfo ref="dialogInfo"></DialogInfo>
+    <DialogInfo ref="dialogInfo" :categoryList="options.category"></DialogInfo>
   </div>
 </template>
 <script>
 import { ref, reactive, onMounted } from "@vue/composition-api";
 import { global } from "../../utils/global3.0";
+import { GetList } from "../../api/news";
 import DialogInfo from "./dialog/index";
 export default {
   components: {
@@ -140,32 +141,41 @@ export default {
     const value3 = ref("");
     const value4 = ref("");
     const currentPage = ref(1);
-    const options = reactive([
-      {
-        value: "选项1",
-        label: "黄金糕"
-      },
-      {
-        value: "选项2",
-        label: "双皮奶"
-      }
-    ]);
-    const options1 = reactive([
-      {
-        value: "选项1",
-        label: "黄金糕"
-      },
-      {
-        value: "选项2",
-        label: "双皮奶"
-      }
-    ]);
-    const tableData = reactive([{}]);
+    const options = reactive({
+      category: []
+    });
+    const options1 = reactive({
+      list: []
+    });
+    const tableData = reactive({
+      list: [],
+      total: 0,
+      pageSize: 5,
+      pageNumber: 1
+    });
+    const getList = () => {
+      let data = {
+        categoryId: "",
+        startTiem: "",
+        endTime: "",
+        title: "",
+        id: "",
+        pageNumber: tableData.pageNumber,
+        pageSize: tableData.pageSize
+      };
+      GetList(data).then(res => {
+        console.log(res.data.data.total);
+        tableData.list = res.data.data.data;
+        tableData.total = res.data.data.total;
+      });
+    };
     const handleSizeChange = val => {
-      console.log(`每页 ${val} 条`);
+      tableData.pageSize = val;
+      getList();
     };
     const handleCurrentChange = val => {
-      console.log(`当前页: ${val}`);
+      tableData.pageNumber = val;
+      getList();
     };
     const deleteItem = row => {
       console.log(row);
@@ -184,12 +194,6 @@ export default {
       });
     };
     const deleteAll = () => {
-      //vue2.0全局使用
-      // root.confirm({
-      //   content: "确认删除全部信息？",
-      //   fn: confirmDelete
-      // });
-
       //vue3.0全局使用
       confirm({
         content: "确认删除全部信息？",
@@ -202,8 +206,12 @@ export default {
     const openDialog = () => {
       refs["dialogInfo"].show();
     };
+    const getCategory = async () => {
+      options.category = await root.$getCategory();
+    };
     onMounted(() => {
-      console.log(root);
+      getList();
+      getCategory();
     });
     return {
       options,
@@ -214,6 +222,7 @@ export default {
       value3,
       value4,
       currentPage,
+      getList,
       deleteItem,
       deleteAll,
       handleSizeChange,
