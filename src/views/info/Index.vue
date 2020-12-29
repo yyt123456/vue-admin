@@ -77,12 +77,14 @@
         align="center"
         prop="categoryId"
         label="类型"
+        :formatter="formatterCategory"
         width="200"
       ></el-table-column>
       <el-table-column
         align="center"
         prop="createDate"
         label="日期"
+        :formatter="formatterDate"
         width="200"
       ></el-table-column>
       <el-table-column
@@ -153,6 +155,12 @@ export default {
       pageSize: 5,
       pageNumber: 1
     });
+    const formatterDate = (row) => {
+        return root.$moment(new Date(row.createDate*1000)).format('YYYY-MM-DD hh:mm:ss')
+    }
+    const formatterCategory = (row) => {
+        return options.category.find((item)=>item.id === row.categoryId).category_name
+    }
     const getList = () => {
       let data = {
         categoryId: "",
@@ -227,7 +235,9 @@ export default {
       deleteAll,
       handleSizeChange,
       handleCurrentChange,
-      openDialog
+      openDialog,
+        formatterDate,
+        formatterCategory
     };
   }
 };
