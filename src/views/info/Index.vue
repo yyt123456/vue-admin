@@ -24,9 +24,9 @@
             <el-date-picker
               v-model="value2"
               type="datetimerange"
+              value-format="yyyy-MM-dd hh:mm:ss"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-              :default-time="['12:00:00']"
             >
             </el-date-picker>
           </div>
@@ -56,12 +56,16 @@
         ></el-input>
       </el-col>
       <el-col :span="4">
-        <el-button type="danger">搜索</el-button>
+        <el-button type="danger" @click="search">搜索</el-button>
         <el-button type="danger" @click="openDialog">新增</el-button>
       </el-col>
     </el-row>
     <br />
-    <el-table :data="tableData.list" border>
+    <el-table
+      :data="tableData.list"
+      border
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column
         type="selection"
         width="45"
@@ -129,7 +133,7 @@
 <script>
 import { ref, reactive, onMounted } from "@vue/composition-api";
 import { global } from "../../utils/global3.0";
-import { GetList } from "../../api/news";
+import { GetList, DeleteInfo } from "../../api/news";
 import DialogInfo from "./dialog/index";
 export default {
   components: {
@@ -142,12 +146,22 @@ export default {
     const value2 = ref("");
     const value3 = ref("");
     const value4 = ref("");
+    const deleteId = ref("");
     const currentPage = ref(1);
     const options = reactive({
       category: []
     });
     const options1 = reactive({
-      list: []
+      list: [
+        {
+          value: "id",
+          label: "ID"
+        },
+        {
+          value: "title",
+          label: "标题"
+        }
+      ]
     });
     const tableData = reactive({
       list: [],
@@ -155,24 +169,47 @@ export default {
       pageSize: 5,
       pageNumber: 1
     });
-    const formatterDate = (row) => {
-        return root.$moment(new Date(row.createDate*1000)).format('YYYY-MM-DD hh:mm:ss')
-    }
-    const formatterCategory = (row) => {
-        return options.category.find((item)=>item.id === row.categoryId).category_name
-    }
-    const getList = () => {
+    const search = () => {
+      // console.log(value1.value)
+      // console.log(value2.value)
+      // console.log(value3.value)
+      // console.log(value4.value)
+      getList();
+    };
+    const formatterDate = row => {
+      return root
+        .$moment(new Date(row.createDate * 1000))
+        .format("YYYY-MM-DD hh:mm:ss");
+    };
+    const formatterCategory = row => {
+      if (options.category.find(item => item.id === row.categoryId)) {
+        return options.category.find(item => item.id === row.categoryId)
+          .category_name;
+      } else {
+        return "";
+      }
+    };
+    const formData = () => {
       let data = {
-        categoryId: "",
-        startTiem: "",
-        endTime: "",
-        title: "",
-        id: "",
         pageNumber: tableData.pageNumber,
         pageSize: tableData.pageSize
       };
+      if (value1.value) {
+        data.categoryId = value1.value;
+      }
+      if (value2.value) {
+        data.startTiem = value2.value[0];
+        data.endTime = value2.value[1];
+      }
+      if (value3.value) {
+        data[value3.value] = value4.value;
+      }
+      console.log(data);
+      return data;
+    };
+    const getList = () => {
+      let data = formData();
       GetList(data).then(res => {
-        console.log(res.data.data.total);
         tableData.list = res.data.data.data;
         tableData.total = res.data.data.total;
       });
@@ -185,31 +222,43 @@ export default {
       tableData.pageNumber = val;
       getList();
     };
+    const handleSelectionChange = val => {
+      deleteId.value = val.map(item => item.id);
+    };
     const deleteItem = row => {
       console.log(row);
+      deleteId.value = [row.id];
       //vue2.0全局使用
       // root.confirm({
       //   content: "确认删除当前信息？",
-      //   fn: confirmDelete,
-      //   id: "123"
+      //   fn: confirmDelete
       // });
 
       //vue3.0全局使用
       confirm({
         content: "确认删除当前信息？",
-        fn: confirmDelete,
-        id: "123"
+        fn: confirmDelete
       });
     };
     const deleteAll = () => {
       //vue3.0全局使用
+      if (!deleteId.value) {
+        root.$message({
+          type: "warning",
+          message: "请选择删除项"
+        });
+        return;
+      }
       confirm({
         content: "确认删除全部信息？",
         fn: confirmDelete
       });
     };
-    const confirmDelete = id => {
-      console.log(id);
+    const confirmDelete = () => {
+      DeleteInfo({ id: deleteId.value }).then(() => {
+        deleteId.value = "";
+        getList();
+      });
     };
     const openDialog = () => {
       refs["dialogInfo"].show();
@@ -231,13 +280,15 @@ export default {
       value4,
       currentPage,
       getList,
+      search,
       deleteItem,
       deleteAll,
       handleSizeChange,
       handleCurrentChange,
+      handleSelectionChange,
       openDialog,
-        formatterDate,
-        formatterCategory
+      formatterDate,
+      formatterCategory
     };
   }
 };

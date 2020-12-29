@@ -8,6 +8,14 @@ export function AddInfo(data) {
   });
 }
 
+export function DeleteInfo(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/news/deleteInfo/",
+    data: data
+  });
+}
+
 export function AddFirstategory(data) {
   return service.request({
     method: "post",

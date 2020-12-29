@@ -6,7 +6,7 @@ import store from "./store";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import VueCompositionApi from "@vue/composition-api";
-import moment from 'moment'
+import moment from "moment";
 
 //自定义全服方法
 import global from "./utils/global";
