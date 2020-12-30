@@ -21,12 +21,11 @@
             <span slot="title">{{ i.meta.name }}</span>
           </template>
           <!--子菜单-->
-          <el-menu-item
-            :index="sub.path"
-            v-for="(sub, subKey) in i.children"
-            :key="subKey"
-            >{{ sub.meta.name }}</el-menu-item
-          >
+          <template v-for="(sub, subKey) in i.children">
+            <el-menu-item :index="sub.path" :key="subKey" v-if="!sub.hidden">{{
+              sub.meta.name
+            }}</el-menu-item>
+          </template>
         </el-submenu>
       </template>
     </el-menu>

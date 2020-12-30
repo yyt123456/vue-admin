@@ -7,8 +7,8 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import VueCompositionApi from "@vue/composition-api";
 import moment from "moment";
-
-//自定义全服方法
+import VueStorage from "vue-ls";
+//自定义全局方法
 import global from "./utils/global";
 import common from "./api/common";
 
@@ -16,6 +16,11 @@ import common from "./api/common";
 import "./icons";
 Vue.config.productionTip = false;
 
+Vue.use(VueStorage, {
+  namespace: "VUE-ADMIN-",
+  name: "ls",
+  storage: "session"
+});
 Vue.use(ElementUI);
 Vue.use(global);
 Vue.use(common);

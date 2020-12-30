@@ -82,6 +82,16 @@ const routes = [
           import(
             /* webpackChunkName: "infoCategory" */ "../views/info/Category"
           )
+      },
+      {
+        path: "/infoDetail",
+        name: "infoDetail",
+        hidden: true,
+        meta: {
+          name: "信息详情"
+        },
+        component: () =>
+          import(/* webpackChunkName: "infoDetail" */ "../views/info/Detail")
       }
     ]
   },

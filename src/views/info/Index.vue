@@ -105,8 +105,8 @@
           <el-button type="text" size="small" @click="openEditInfo(scope.row)"
             >编辑</el-button
           >
-          <el-button type="text" size="small" @click="openEditInfo(scope.row)"
-          >编辑详情</el-button
+          <el-button type="text" size="small" @click="goDetail(scope.row)"
+            >编辑详情</el-button
           >
         </template>
       </el-table-column>
@@ -269,6 +269,10 @@ export default {
     const getCategory = async () => {
       options.category = await root.$getCategoryAll();
     };
+    const goDetail = data => {
+      root.$ls.set("detail", data);
+      root.$router.push("/infoDetail");
+    };
     onMounted(() => {
       getList();
       getCategory();
@@ -291,7 +295,8 @@ export default {
       openDialog,
       openEditInfo,
       formatterDate,
-      formatterCategory
+      formatterCategory,
+      goDetail
     };
   }
 };

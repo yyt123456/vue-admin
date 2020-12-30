@@ -22,7 +22,7 @@
                   <el-button
                     type="danger"
                     size="mini"
-                    @click="editCategory(category, '' , 'first')"
+                    @click="editCategory(category, '', 'first')"
                     >编辑</el-button
                   >
                   <el-button
@@ -43,8 +43,18 @@
                 <li v-for="item in category.children" :key="item.id">
                   {{ item.category_name }}
                   <div class="button-group">
-                    <el-button type="danger" size="mini" @click="editCategory(category,item, 'second')">编辑</el-button>
-                    <el-button type="primary" size="mini" @click="deleteCategory(item)">删除</el-button>
+                    <el-button
+                      type="danger"
+                      size="mini"
+                      @click="editCategory(category, item, 'second')"
+                      >编辑</el-button
+                    >
+                    <el-button
+                      type="primary"
+                      size="mini"
+                      @click="deleteCategory(item)"
+                      >删除</el-button
+                    >
                   </div>
                 </li>
               </ul>
@@ -178,18 +188,18 @@ export default {
             loading.value = false;
           });
       } else if (submitType.value === "edit") {
-          let name = ""
-        if(rankType.value === 'first') {
-            name = form.categoryName
+        let name = "";
+        if (rankType.value === "first") {
+          name = form.categoryName;
         } else {
-            name = form.secCategoryName
+          name = form.secCategoryName;
         }
-        console.log(data, 'data')
+        console.log(data, "data");
         data = {
           id: currentData.id,
           categoryName: name
         };
-        console.log(data, 'data')
+        console.log(data, "data");
         EditCategory(data)
           .then(res => {
             root.$message({
@@ -223,31 +233,29 @@ export default {
       currentData.id = category.id;
       submitType.value = "addChild";
     };
-    const editCategory = (category, item , type) => {
-        if(type === 'first') {
-            first_input.value = true;
-            second_input.value = false;
-            status.first = false;
-            status.submit = false;
-            form.categoryName = category.category_name;
-            currentData.id = category.id;
-            submitType.value = "edit";
-            rankType.value = type
-        } else if(type === 'second'){
-            console.log(category,item, '二级编辑')
-            first_input.value = true;
-            second_input.value = true;
-            status.first = true;
-            status.second = false;
-            status.submit = false;
-            form.categoryName = category.category_name;
-            form.secCategoryName = item.category_name;
-            currentData.id = item.id
-            submitType.value = "edit";
-            rankType.value = type
-        }
-
-
+    const editCategory = (category, item, type) => {
+      if (type === "first") {
+        first_input.value = true;
+        second_input.value = false;
+        status.first = false;
+        status.submit = false;
+        form.categoryName = category.category_name;
+        currentData.id = category.id;
+        submitType.value = "edit";
+        rankType.value = type;
+      } else if (type === "second") {
+        console.log(category, item, "二级编辑");
+        first_input.value = true;
+        second_input.value = true;
+        status.first = true;
+        status.second = false;
+        status.submit = false;
+        form.categoryName = category.category_name;
+        form.secCategoryName = item.category_name;
+        currentData.id = item.id;
+        submitType.value = "edit";
+        rankType.value = type;
+      }
     };
     const deleteCategory = category => {
       categoryId.value = category.id;
