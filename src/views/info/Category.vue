@@ -22,7 +22,7 @@
                   <el-button
                     type="danger"
                     size="mini"
-                    @click="editCategory(category)"
+                    @click="editCategory(category, '' , 'first')"
                     >编辑</el-button
                   >
                   <el-button
@@ -43,8 +43,8 @@
                 <li v-for="item in category.children" :key="item.id">
                   {{ item.category_name }}
                   <div class="button-group">
-                    <el-button type="danger" size="mini">编辑</el-button>
-                    <el-button type="primary" size="mini">删除</el-button>
+                    <el-button type="danger" size="mini" @click="editCategory(category,item, 'second')">编辑</el-button>
+                    <el-button type="primary" size="mini" @click="deleteCategory(item)">删除</el-button>
                   </div>
                 </li>
               </ul>
@@ -92,7 +92,7 @@ import { ref, reactive, onMounted } from "@vue/composition-api";
 import {
   AddFirstCategory,
   AddChildCategory,
-  GetCategory,
+  GetCategoryAll,
   DeleteCategory,
   EditCategory
 } from "../../api/news";
@@ -104,6 +104,7 @@ export default {
     const second_input = ref(true);
     const loading = ref(false);
     const submitType = ref("");
+    const rankType = ref("");
     const currentData = reactive({
       categoryName: "",
       id: ""
@@ -122,12 +123,10 @@ export default {
       item: []
     });
     const getCategory = () => {
-      GetCategory().then(res => {
-        const { data } = res.data.data;
+      GetCategoryAll().then(res => {
+        const { data } = res.data;
         categoryList.item = data;
         loading.value = false;
-        form.categoryName = "";
-        form.secCategoryName = "";
       });
     };
     const submit = () => {
@@ -147,6 +146,7 @@ export default {
               type: "success",
               message: res.data.message
             });
+            form.categoryName = "";
             getCategory();
           })
           .catch(err => {
@@ -170,6 +170,7 @@ export default {
               type: "success",
               message: res.data.message
             });
+            form.secCategoryName = "";
             getCategory();
           })
           .catch(err => {
@@ -177,10 +178,18 @@ export default {
             loading.value = false;
           });
       } else if (submitType.value === "edit") {
+          let name = ""
+        if(rankType.value === 'first') {
+            name = form.categoryName
+        } else {
+            name = form.secCategoryName
+        }
+        console.log(data, 'data')
         data = {
           id: currentData.id,
-          categoryName: form.categoryName
+          categoryName: name
         };
+        console.log(data, 'data')
         EditCategory(data)
           .then(res => {
             root.$message({
@@ -214,14 +223,31 @@ export default {
       currentData.id = category.id;
       submitType.value = "addChild";
     };
-    const editCategory = category => {
-      first_input.value = true;
-      second_input.value = false;
-      status.first = false;
-      status.submit = false;
-      form.categoryName = category.category_name;
-      currentData.id = category.id;
-      submitType.value = "edit";
+    const editCategory = (category, item , type) => {
+        if(type === 'first') {
+            first_input.value = true;
+            second_input.value = false;
+            status.first = false;
+            status.submit = false;
+            form.categoryName = category.category_name;
+            currentData.id = category.id;
+            submitType.value = "edit";
+            rankType.value = type
+        } else if(type === 'second'){
+            console.log(category,item, '二级编辑')
+            first_input.value = true;
+            second_input.value = true;
+            status.first = true;
+            status.second = false;
+            status.submit = false;
+            form.categoryName = category.category_name;
+            form.secCategoryName = item.category_name;
+            currentData.id = item.id
+            submitType.value = "edit";
+            rankType.value = type
+        }
+
+
     };
     const deleteCategory = category => {
       categoryId.value = category.id;

@@ -21,7 +21,7 @@ export default {
       return new Promise(resolve => {
         GetCategoryAll()
           .then(res => {
-            const { data } = res.data.data;
+            const { data } = res.data;
             resolve(data);
           })
           .catch(() => {
