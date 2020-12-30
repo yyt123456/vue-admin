@@ -105,6 +105,9 @@
           <el-button type="text" size="small" @click="openEditInfo(scope.row)"
             >编辑</el-button
           >
+          <el-button type="text" size="small" @click="openEditInfo(scope.row)"
+          >编辑详情</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -264,7 +267,7 @@ export default {
       refs["editInfo"].show(data);
     };
     const getCategory = async () => {
-      options.category = await root.$getCategory();
+      options.category = await root.$getCategoryAll();
     };
     onMounted(() => {
       getList();
