@@ -25,7 +25,12 @@
                     @click="editCategory(category)"
                     >编辑</el-button
                   >
-                  <el-button type="success" size="mini">添加子集</el-button>
+                  <el-button
+                    type="success"
+                    size="mini"
+                    @click="addChildren(category)"
+                    >添加子集</el-button
+                  >
                   <el-button
                     type="primary"
                     size="mini"
@@ -85,7 +90,8 @@
 <script>
 import { ref, reactive, onMounted } from "@vue/composition-api";
 import {
-  AddFirstategory,
+  AddFirstCategory,
+  AddChildCategory,
   GetCategory,
   DeleteCategory,
   EditCategory
@@ -135,7 +141,7 @@ export default {
         data = {
           categoryName: form.categoryName
         };
-        AddFirstategory(data)
+        AddFirstCategory(data)
           .then(res => {
             root.$message({
               type: "success",
@@ -148,6 +154,27 @@ export default {
             loading.value = false;
             form.categoryName = "";
             form.secCategoryName = "";
+          });
+      } else if (submitType.value === "addChild") {
+        if (!form.secCategoryName) {
+          root.$message.warning("子集类名不能为空");
+          return;
+        }
+        data = {
+          parentId: currentData.id,
+          categoryName: form.secCategoryName
+        };
+        AddChildCategory(data)
+          .then(res => {
+            root.$message({
+              type: "success",
+              message: res.data.message
+            });
+            getCategory();
+          })
+          .catch(err => {
+            console.log(err);
+            loading.value = false;
           });
       } else if (submitType.value === "edit") {
         data = {
@@ -176,6 +203,16 @@ export default {
       status.submit = false;
       form.categoryName = "";
       submitType.value = "add";
+    };
+    const addChildren = category => {
+      first_input.value = true;
+      second_input.value = true;
+      status.first = true;
+      status.second = false;
+      status.submit = false;
+      form.categoryName = category.category_name;
+      currentData.id = category.id;
+      submitType.value = "addChild";
     };
     const editCategory = category => {
       first_input.value = true;
@@ -213,6 +250,7 @@ export default {
       status,
       categoryId,
       addFirst,
+      addChildren,
       editCategory,
       submit,
       deleteCategory

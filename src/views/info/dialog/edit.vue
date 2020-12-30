@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="新增"
+    title="修改"
     :visible.sync="dialogTableVisible"
     width="580px"
     @opened="getCategory"
@@ -35,7 +35,7 @@
 </template>
 <script>
 import { ref, reactive, onMounted } from "@vue/composition-api";
-import { AddInfo } from "../../../api/news";
+import { EditInfo } from "../../../api/news";
 export default {
   props: {
     categoryList: {
@@ -60,8 +60,15 @@ export default {
       createDate: "",
       status: ""
     });
-    const show = () => {
+    const show = data => {
+      console.log(data);
       dialogTableVisible.value = !dialogTableVisible.value;
+      form.category = data.categoryId;
+      form.title = data.title;
+      form.content = data.content;
+      form.imgUrl = data.imgUrl;
+      form.createDate = data.createDate;
+      form.id = data.id;
     };
     const getCategory = () => {
       console.log(props);
@@ -86,13 +93,13 @@ export default {
         content: form.content,
         imgUrl: form.imgUrl,
         createDate: form.createDate,
-        status: form.status
+        id: form.id
       };
-      AddInfo(data)
+      EditInfo(data)
         .then(res => {
           parent.getList();
-          root.$message({ type: "success", message: res.data.message });
           setClear();
+          root.$message({ type: "success", message: res.data.message });
           dialogTableVisible.value = !dialogTableVisible.value;
         })
         .catch(() => {

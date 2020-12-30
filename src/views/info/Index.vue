@@ -102,7 +102,7 @@
           <el-button @click="deleteItem(scope.row)" type="text" size="small"
             >删除</el-button
           >
-          <el-button type="text" size="small" @click="openDialog"
+          <el-button type="text" size="small" @click="openEditInfo(scope.row)"
             >编辑</el-button
           >
         </template>
@@ -128,6 +128,7 @@
       </el-col>
     </el-row>
     <DialogInfo ref="dialogInfo" :categoryList="options.category"></DialogInfo>
+    <EditInfo ref="editInfo" :categoryList="options.category"></EditInfo>
   </div>
 </template>
 <script>
@@ -135,9 +136,11 @@ import { ref, reactive, onMounted } from "@vue/composition-api";
 import { global } from "../../utils/global3.0";
 import { GetList, DeleteInfo } from "../../api/news";
 import DialogInfo from "./dialog/index";
+import EditInfo from "./dialog/edit";
 export default {
   components: {
-    DialogInfo
+    DialogInfo,
+    EditInfo
   },
   setup(props, { root, refs }) {
     const { str, confirm } = global();
@@ -257,6 +260,9 @@ export default {
     const openDialog = () => {
       refs["dialogInfo"].show();
     };
+    const openEditInfo = data => {
+      refs["editInfo"].show(data);
+    };
     const getCategory = async () => {
       options.category = await root.$getCategory();
     };
@@ -280,6 +286,7 @@ export default {
       handleCurrentChange,
       handleSelectionChange,
       openDialog,
+      openEditInfo,
       formatterDate,
       formatterCategory
     };

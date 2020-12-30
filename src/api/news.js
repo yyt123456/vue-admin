@@ -8,6 +8,14 @@ export function AddInfo(data) {
   });
 }
 
+export function EditInfo(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/news/editInfo/",
+    data: data
+  });
+}
+
 export function DeleteInfo(data) {
   return service.request({
     method: "post",
@@ -16,10 +24,18 @@ export function DeleteInfo(data) {
   });
 }
 
-export function AddFirstategory(data) {
+export function AddFirstCategory(data) {
   return service.request({
     method: "post",
     url: "devApi/news/addFirstCategory/",
+    data: data
+  });
+}
+
+export function AddChildCategory(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/news/addChildrenCategory/",
     data: data
   });
 }
@@ -35,6 +51,13 @@ export function GetCategory(data) {
   return service.request({
     method: "post",
     url: "devApi/news/getCategory/",
+    data: data
+  });
+}
+export function GetCategoryAll(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/news/getCategoryAll/",
     data: data
   });
 }
