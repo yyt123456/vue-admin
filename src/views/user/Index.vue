@@ -1,5 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
+    <Add ref="add"></Add>
     <el-row :gutter="16">
       <el-col :span="20">
         <div class="label-wrap">
@@ -28,7 +29,7 @@
         </div>
       </el-col>
       <el-col :span="4">
-        <el-button type="danger" class="pull-right">添加用户</el-button>
+        <el-button type="danger" class="pull-right" @click="addUser">添加用户</el-button>
       </el-col>
     </el-row>
     <br />
@@ -56,11 +57,13 @@
 <script>
 import { reactive, onMounted } from "@vue/composition-api";
 import Table from "../../components/table";
+import Add from './dialog/add'
 export default {
   components: {
-    Table
+    Table,
+      Add
   },
-  setup(props, { root }) {
+  setup(props, { root, refs }) {
     console.log(root);
     const data = reactive({
       value1: "name",
@@ -90,6 +93,9 @@ export default {
         ]
       }
     });
+    const addUser = ()=> {
+        refs["add"].show();
+    }
     const onDelete = data => {
       console.log(data);
     };
@@ -100,7 +106,8 @@ export default {
     return {
       data,
       onDelete,
-      onEdit
+      onEdit,
+        addUser
     };
   }
 };
