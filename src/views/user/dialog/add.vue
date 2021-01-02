@@ -16,7 +16,7 @@
         <el-input v-model="form.title" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="地区" :label-width="formLabelWidth">
-        <Picker></Picker>
+        <Picker @listDatas="getListData"></Picker>
       </el-form-item>
       <el-form-item label="是否启用" :label-width="formLabelWidth">
         <el-input v-model="form.title" autocomplete="off"></el-input>
@@ -51,6 +51,12 @@ export default {
   setup(props, { root, parent }) {
     const formLabelWidth = ref("70px");
     let dialogTableVisible = ref(false);
+    let listData = reactive({
+      value1: "",
+      value2: "",
+      value3: "",
+      value4: ""
+    });
     const options = reactive({
       category: []
     });
@@ -66,7 +72,6 @@ export default {
       dialogTableVisible.value = !dialogTableVisible.value;
     };
     const getCategory = () => {
-      console.log(props);
       options.category = props.categoryList;
     };
     const setClear = () => {
@@ -82,6 +87,7 @@ export default {
       setClear();
     };
     const submit = () => {
+      console.log(listData);
       let data = {
         categoryId: form.category,
         title: form.title,
@@ -101,16 +107,21 @@ export default {
           setClear();
         });
     };
+    const getListData = val => {
+      listData = val;
+    };
     onMounted(() => {});
     return {
       formLabelWidth,
       dialogTableVisible,
       options,
       form,
+      listData,
       getCategory,
       show,
       submit,
-      close
+      close,
+      getListData
     };
   }
 };

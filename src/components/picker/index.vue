@@ -51,7 +51,7 @@ import { GetCityPicker } from "../../api/user";
 import { Selection } from "./selection";
 
 export default {
-  setup(props, { root }) {
+  setup(props, { root, emit }) {
     console.log(root);
     const { handleProvince, handleCity, handleArea, listData } = Selection();
     const data = reactive({
@@ -70,18 +70,27 @@ export default {
       () => data.value1,
       () => {
         data.value2 = "";
+        emit("listDatas", data);
       }
     );
     watch(
       () => data.value2,
       () => {
         data.value3 = "";
+        emit("listDatas", data);
       }
     );
     watch(
       () => data.value3,
       () => {
         data.value4 = "";
+        emit("listDatas", data);
+      }
+    );
+    watch(
+      () => data.value4,
+      () => {
+        emit("listDatas", data);
       }
     );
     onMounted(() => {
