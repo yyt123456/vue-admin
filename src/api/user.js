@@ -7,3 +7,11 @@ export function GetUserList(data) {
     data: data
   });
 }
+
+export function GetCityPicker(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/cityPicker/",
+    data: data
+  });
+}

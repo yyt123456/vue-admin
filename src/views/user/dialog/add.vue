@@ -1,119 +1,118 @@
 <template>
-    <el-dialog
-            title="新增"
-            :visible.sync="dialogTableVisible"
-            width="680px"
-            @opened="getCategory"
-    >
-        <el-form :model="form" ref="form">
-            <el-form-item label="用户名" :label-width="formLabelWidth">
-                <el-input v-model="form.title" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="姓名" :label-width="formLabelWidth">
-                <el-input v-model="form.title" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号" :label-width="formLabelWidth">
-                <el-input v-model="form.title" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="地区" :label-width="formLabelWidth">
-                <el-row :gutter="5">
-                    <el-col :span="4" style="width: 120px"><el-select></el-select></el-col>
-                    <el-col :span="4" style="width: 120px"><el-select></el-select></el-col>
-                    <el-col :span="4" style="width: 120px"><el-select></el-select></el-col>
-                    <el-col :span="4" style="width: 120px"><el-select></el-select></el-col>
-                </el-row>
-            </el-form-item>
-            <el-form-item label="是否启用" :label-width="formLabelWidth">
-                <el-input v-model="form.title" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="角色" :label-width="formLabelWidth">
-                <el-input v-model="form.title" autocomplete="off"></el-input>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="close">取 消</el-button>
-            <el-button type="danger" @click="submit">确 定</el-button>
-        </div>
-    </el-dialog>
+  <el-dialog
+    title="新增"
+    :visible.sync="dialogTableVisible"
+    width="680px"
+    @opened="getCategory"
+  >
+    <el-form :model="form" ref="form">
+      <el-form-item label="用户名" :label-width="formLabelWidth">
+        <el-input v-model="form.title" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="姓名" :label-width="formLabelWidth">
+        <el-input v-model="form.title" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="手机号" :label-width="formLabelWidth">
+        <el-input v-model="form.title" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="地区" :label-width="formLabelWidth">
+        <Picker></Picker>
+      </el-form-item>
+      <el-form-item label="是否启用" :label-width="formLabelWidth">
+        <el-input v-model="form.title" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="角色" :label-width="formLabelWidth">
+        <el-input v-model="form.title" autocomplete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="close">取 消</el-button>
+      <el-button type="danger" @click="submit">确 定</el-button>
+    </div>
+  </el-dialog>
 </template>
 <script>
-    import { ref, reactive, onMounted } from "@vue/composition-api";
-    import { AddInfo } from "../../../api/news";
-    export default {
-        props: {
-            categoryList: {
-                type: Array,
-                default: function() {
-                    return [];
-                }
-            }
-        },
+import Picker from "../../../components/picker";
+import { ref, reactive, onMounted } from "@vue/composition-api";
+import { AddInfo } from "../../../api/news";
+export default {
+  components: {
+    Picker
+  },
+  props: {
+    categoryList: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    }
+  },
 
-        setup(props, { root, parent }) {
-            const formLabelWidth = ref("70px");
-            let dialogTableVisible = ref(false);
-            const options = reactive({
-                category: []
-            });
-            const form = reactive({
-                category: "",
-                title: "",
-                content: "",
-                imgUrl: "",
-                createDate: "",
-                status: ""
-            });
-            const show = () => {
-                dialogTableVisible.value = !dialogTableVisible.value;
-            };
-            const getCategory = () => {
-                console.log(props);
-                options.category = props.categoryList;
-            };
-            const setClear = () => {
-                form.category = "";
-                form.title = "";
-                form.content = "";
-                form.imgUrl = "";
-                form.createDate = "";
-                form.status = "";
-            };
-            const close = () => {
-                dialogTableVisible.value = !dialogTableVisible.value;
-                setClear();
-            };
-            const submit = () => {
-                let data = {
-                    categoryId: form.category,
-                    title: form.title,
-                    content: form.content,
-                    imgUrl: form.imgUrl,
-                    createDate: form.createDate,
-                    status: form.status
-                };
-                AddInfo(data)
-                    .then(res => {
-                        parent.getList();
-                        root.$message({ type: "success", message: res.data.message });
-                        setClear();
-                        dialogTableVisible.value = !dialogTableVisible.value;
-                    })
-                    .catch(() => {
-                        setClear();
-                    });
-            };
-            onMounted(() => {});
-            return {
-                formLabelWidth,
-                dialogTableVisible,
-                options,
-                form,
-                getCategory,
-                show,
-                submit,
-                close
-            };
-        }
+  setup(props, { root, parent }) {
+    const formLabelWidth = ref("70px");
+    let dialogTableVisible = ref(false);
+    const options = reactive({
+      category: []
+    });
+    const form = reactive({
+      category: "",
+      title: "",
+      content: "",
+      imgUrl: "",
+      createDate: "",
+      status: ""
+    });
+    const show = () => {
+      dialogTableVisible.value = !dialogTableVisible.value;
     };
+    const getCategory = () => {
+      console.log(props);
+      options.category = props.categoryList;
+    };
+    const setClear = () => {
+      form.category = "";
+      form.title = "";
+      form.content = "";
+      form.imgUrl = "";
+      form.createDate = "";
+      form.status = "";
+    };
+    const close = () => {
+      dialogTableVisible.value = !dialogTableVisible.value;
+      setClear();
+    };
+    const submit = () => {
+      let data = {
+        categoryId: form.category,
+        title: form.title,
+        content: form.content,
+        imgUrl: form.imgUrl,
+        createDate: form.createDate,
+        status: form.status
+      };
+      AddInfo(data)
+        .then(res => {
+          parent.getList();
+          root.$message({ type: "success", message: res.data.message });
+          setClear();
+          dialogTableVisible.value = !dialogTableVisible.value;
+        })
+        .catch(() => {
+          setClear();
+        });
+    };
+    onMounted(() => {});
+    return {
+      formLabelWidth,
+      dialogTableVisible,
+      options,
+      form,
+      getCategory,
+      show,
+      submit,
+      close
+    };
+  }
+};
 </script>
 <style lang="scss" scoped></style>

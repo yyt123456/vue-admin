@@ -29,7 +29,9 @@
         </div>
       </el-col>
       <el-col :span="4">
-        <el-button type="danger" class="pull-right" @click="addUser">添加用户</el-button>
+        <el-button type="danger" class="pull-right" @click="addUser"
+          >添加用户</el-button
+        >
       </el-col>
     </el-row>
     <br />
@@ -57,11 +59,11 @@
 <script>
 import { reactive, onMounted } from "@vue/composition-api";
 import Table from "../../components/table";
-import Add from './dialog/add'
+import Add from "./dialog/add";
 export default {
   components: {
     Table,
-      Add
+    Add
   },
   setup(props, { root, refs }) {
     console.log(root);
@@ -93,9 +95,9 @@ export default {
         ]
       }
     });
-    const addUser = ()=> {
-        refs["add"].show();
-    }
+    const addUser = () => {
+      refs["add"].show();
+    };
     const onDelete = data => {
       console.log(data);
     };
@@ -107,7 +109,7 @@ export default {
       data,
       onDelete,
       onEdit,
-        addUser
+      addUser
     };
   }
 };

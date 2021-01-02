@@ -82,7 +82,7 @@ export default {
       tableConfig: {
         selection: false,
         checkBcx: false,
-          pagination: false,
+        pagination: false,
         tHead: []
       },
       tableData: []
@@ -90,9 +90,9 @@ export default {
     watch(
       [() => pageData.currentPage, () => pageData.pageSize],
       ([currentPage, pageSize]) => {
-          pageData.currentPage = currentPage
-          pageData.pageSize = pageSize
-          loadData()
+        pageData.currentPage = currentPage;
+        pageData.pageSize = pageSize;
+        loadData();
       }
     );
     let loadData = () => {
@@ -101,7 +101,6 @@ export default {
         pageSize: pageData.pageSize
       };
       GetUserList(requestData).then(res => {
-        // console.log(res.data.data.data)
         data.tableData = res.data.data.data;
         pageData.total = res.data.data.total || 10;
         console.log(data.tableData);
