@@ -36,3 +36,10 @@ export function DeleteUser(data) {
     data: data
   });
 }
+export function UserActives(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/user/actives/",
+    data: data
+  });
+}

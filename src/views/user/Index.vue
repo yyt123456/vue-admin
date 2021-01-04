@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
-    <Add ref="add"></Add>
+    <Add ref="add" @refresh="onRefresh"></Add>
     <el-row :gutter="16">
       <el-col :span="20">
         <div class="label-wrap">
@@ -41,13 +41,13 @@
       ref="TableList"
     >
       <template v-slot:status="slotData">
-        <!--<div>{{slotData}}</div>-->
         <el-switch
           v-model="slotData.data.status"
           active-color="#13ce66"
           inactive-color="#ff4949"
           active-value="2"
           inactive-value="1"
+          @change="handleSwitch(slotData.data)"
         >
         </el-switch
       ></template>
@@ -69,7 +69,7 @@
 import { reactive, onMounted } from "@vue/composition-api";
 import Table from "../../components/table";
 import Add from "./dialog/add";
-import { DeleteUser } from "../../api/user";
+import { DeleteUser, UserActives } from "../../api/user";
 import { global } from "../../utils/global3.0";
 export default {
   components: {
@@ -142,13 +142,23 @@ export default {
     const onEdit = data => {
       console.log(data);
     };
+    const onRefresh = () => {
+      refs["TableList"].loadData();
+    };
+    const handleSwitch = val => {
+      UserActives({ id: val.id, status: val.status }).then(() => {
+        // onRefresh()
+      });
+    };
     onMounted(() => {});
     return {
       data,
       onDelete,
       onDeleteOne,
       onEdit,
-      addUser
+      onRefresh,
+      addUser,
+      handleSwitch
     };
   }
 };
