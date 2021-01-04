@@ -22,3 +22,10 @@ export function GetRole(data) {
     data: data
   });
 }
+export function AddUser(data) {
+    return service.request({
+        method: "post",
+        url: "devApi/role/add/",
+        data: data
+    });
+}

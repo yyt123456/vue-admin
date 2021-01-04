@@ -12,6 +12,9 @@
       <el-form-item label="姓名" :label-width="formLabelWidth">
         <el-input v-model="form.title" autocomplete="off"></el-input>
       </el-form-item>
+      <el-form-item label="密码" :label-width="formLabelWidth">
+        <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
+      </el-form-item>
       <el-form-item label="手机号" :label-width="formLabelWidth">
         <el-input v-model="form.title" autocomplete="off"></el-input>
       </el-form-item>
@@ -60,7 +63,7 @@ export default {
     }
   },
 
-  setup(props, { root, parent }) {
+  setup(props, { root, parent, refs }) {
     const formLabelWidth = ref("70px");
     let dialogTableVisible = ref(false);
     const options = reactive({
@@ -70,20 +73,13 @@ export default {
       list: []
     });
     const form = reactive({
-      category: "",
-      title: "",
-      content: "",
-      imgUrl: "",
-      createDate: "",
-      status: "",
-      roleStatus: "1",
-      listData: {
-        value1: "",
-        value2: "",
-        value3: "",
-        value4: ""
-      },
-      roleUser: []
+        username:'',
+        truename:'',
+        password:'',
+        phone:'',
+        region:'',
+        status:'',
+        role:'',
     });
     const show = () => {
       dialogTableVisible.value = !dialogTableVisible.value;
@@ -92,18 +88,9 @@ export default {
       options.category = props.categoryList;
     };
     const setClear = () => {
-      form.category = "";
-      form.title = "";
-      form.content = "";
-      form.imgUrl = "";
-      form.createDate = "";
-      form.status = "";
-      // form.listData = {
-      //     value1: "",
-      //     value2: "",
-      //     value3: "",
-      //     value4: ""
-      // };
+      root.$nextTick(()=>{
+          refs['form'].resetFields()
+      })
     };
     const close = () => {
       dialogTableVisible.value = !dialogTableVisible.value;
@@ -112,12 +99,7 @@ export default {
     const submit = () => {
       console.log(form.roleUser);
       let data = {
-        categoryId: form.category,
-        title: form.title,
-        content: form.content,
-        imgUrl: form.imgUrl,
-        createDate: form.createDate,
-        status: form.status
+
       };
       AddInfo(data)
         .then(res => {
