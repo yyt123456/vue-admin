@@ -23,9 +23,16 @@ export function GetRole(data) {
   });
 }
 export function AddUser(data) {
-    return service.request({
-        method: "post",
-        url: "devApi/role/add/",
-        data: data
-    });
+  return service.request({
+    method: "post",
+    url: "devApi/user/add/",
+    data: data
+  });
+}
+export function DeleteUser(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/user/delete/",
+    data: data
+  });
 }

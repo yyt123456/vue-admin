@@ -35,23 +35,32 @@
       </el-col>
     </el-row>
     <br />
-    <Table :configTable="data.configTable">
+    <Table
+      :configTable="data.configTable"
+      :tableRow.sync="data.tableRow"
+      ref="TableList"
+    >
       <template v-slot:status="slotData">
         <!--<div>{{slotData}}</div>-->
         <el-switch
           v-model="slotData.data.status"
           active-color="#13ce66"
           inactive-color="#ff4949"
+          active-value="2"
+          inactive-value="1"
         >
         </el-switch
       ></template>
       <template v-slot:operation="slotData">
-        <el-button type="danger" @click="onDelete(slotData.data)"
+        <el-button type="danger" @click="onDeleteOne(slotData.data)"
           >删除</el-button
         >
         <el-button type="success" @click="onEdit(slotData.data)"
           >编辑</el-button
         >
+      </template>
+      <template v-slot:tableFooterLeft>
+        <el-button @click="onDelete">批量删除</el-button>
       </template>
     </Table>
   </div>
@@ -60,6 +69,8 @@
 import { reactive, onMounted } from "@vue/composition-api";
 import Table from "../../components/table";
 import Add from "./dialog/add";
+import { DeleteUser } from "../../api/user";
+import { global } from "../../utils/global3.0";
 export default {
   components: {
     Table,
@@ -67,9 +78,11 @@ export default {
   },
   setup(props, { root, refs }) {
     console.log(root);
+    const { confirm } = global();
     const data = reactive({
       value1: "name",
       value2: "",
+      tableRow: {},
       options: [
         { value: "name", label: "姓名" },
         { value: "phone", label: "手机号" },
@@ -80,10 +93,10 @@ export default {
         checkBcx: true,
         pagination: true,
         tHead: [
-          { label: "邮箱/用户名", field: "email", width: "200" },
-          { label: "姓名", field: "name" },
+          { label: "邮箱/用户名", field: "username", width: "200" },
+          { label: "姓名", field: "truename" },
           { label: "手机号", field: "phone" },
-          { label: "地址", field: "address" },
+          { label: "地区", field: "region" },
           { label: "角色", field: "role" },
           {
             label: "禁用状态",
@@ -98,8 +111,33 @@ export default {
     const addUser = () => {
       refs["add"].show();
     };
-    const onDelete = data => {
-      console.log(data);
+    const onDelete = () => {
+      if (!data.tableRow.idItem || data.tableRow.idItem.length === 0) {
+        root.$message({
+          type: "warning",
+          message: "请勾选选项"
+        });
+        return;
+      }
+      confirm({
+        content: "确认删除当前信息？",
+        fn: deleteUser
+      });
+    };
+    const onDeleteOne = val => {
+      confirm({
+        content: "确认删除当前信息？",
+        fn: function() {
+          DeleteUser({ id: [val.id] }).then(() => {
+            refs["TableList"].loadData();
+          });
+        }
+      });
+    };
+    const deleteUser = () => {
+      DeleteUser({ id: data.tableRow.idItem }).then(() => {
+        refs["TableList"].loadData();
+      });
     };
     const onEdit = data => {
       console.log(data);
@@ -108,6 +146,7 @@ export default {
     return {
       data,
       onDelete,
+      onDeleteOne,
       onEdit,
       addUser
     };

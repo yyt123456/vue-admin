@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="5">
       <el-col :span="4" style="width: 120px" v-if="level.includes('province')">
-        <el-select v-model="data.value1" @change="handleProvince">
+        <el-select v-model="data.provinceValue" @change="handleProvince">
           <el-option
             v-for="(item, i) in listData.provinceList"
             :key="i"
@@ -13,7 +13,7 @@
         </el-select>
       </el-col>
       <el-col :span="4" style="width: 120px" v-if="level.includes('city')">
-        <el-select v-model="data.value2" @change="handleCity">
+        <el-select v-model="data.cityValue" @change="handleCity">
           <el-option
             v-for="(item, i) in listData.cityList"
             :key="i"
@@ -23,7 +23,7 @@
         </el-select>
       </el-col>
       <el-col :span="4" style="width: 120px" v-if="level.includes('area')">
-        <el-select v-model="data.value3" @change="handleArea">
+        <el-select v-model="data.areaValue" @change="handleArea">
           <el-option
             v-for="(item, i) in listData.areaList"
             :key="i"
@@ -33,7 +33,7 @@
         </el-select>
       </el-col>
       <el-col :span="4" style="width: 120px" v-if="level.includes('street')">
-        <el-select v-model="data.value4">
+        <el-select v-model="data.streetValue">
           <el-option
             v-for="(item, i) in listData.streetList"
             :key="i"
@@ -52,20 +52,29 @@ import { Selection } from "./selection";
 
 export default {
   props: {
-    level: Array,
-    default: function() {
-      return [];
+    level: {
+      type: Array,
+      default: function() {
+        return [];
+      }
+    },
+    propsData: {
+      type: Object,
+      default: function() {
+        return {};
+      }
     }
   },
   setup(props, { root, emit }) {
     console.log(root);
     const { handleProvince, handleCity, handleArea, listData } = Selection();
-    const data = reactive({
-      value1: "",
-      value2: "",
-      value3: "",
-      value4: ""
+    let data = reactive({
+      provinceValue: "",
+      cityValue: "",
+      areaValue: "",
+      streetValue: ""
     });
+    data = props.propsData;
     const getCity = () => {
       let requestData = { type: "province" };
       GetCityPicker(requestData).then(res => {
@@ -73,28 +82,28 @@ export default {
       });
     };
     watch(
-      () => data.value1,
+      () => data.provinceValue,
       () => {
-        data.value2 = "";
+        data.cityValue = "";
         emit("listDatas", data);
       }
     );
     watch(
-      () => data.value2,
+      () => data.cityValue,
       () => {
-        data.value3 = "";
+        data.areaValue = "";
         emit("listDatas", data);
       }
     );
     watch(
-      () => data.value3,
+      () => data.areaValue,
       () => {
-        data.value4 = "";
+        data.streetValue = "";
         emit("listDatas", data);
       }
     );
     watch(
-      () => data.value4,
+      () => data.streetValue,
       () => {
         emit("listDatas", data);
       }

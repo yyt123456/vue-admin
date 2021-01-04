@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-table :data="data.tableData" border style="width: 100%">
+    <el-table
+      :data="data.tableData"
+      border
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column
         type="selection"
         width="45"
@@ -28,7 +33,6 @@
           :width="item.width"
           align="center"
         >
-          <template> </template>
         </el-table-column>
         <el-table-column
           :key="item.field"
@@ -42,17 +46,22 @@
       </template>
     </el-table>
     <br />
-    <div style="text-align: right" v-if="data.tableConfig.pagination">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="pageData.currentPage"
-        :page-sizes="pageData.pageSizes"
-        :page-size="pageData.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="pageData.total"
-      >
-      </el-pagination>
+    <div class="footer">
+      <div style="text-align: left">
+        <slot name="tableFooterLeft"></slot>
+      </div>
+      <div style="text-align: right" v-if="data.tableConfig.pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageData.currentPage"
+          :page-sizes="pageData.pageSizes"
+          :page-size="pageData.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pageData.total"
+        >
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -70,9 +79,13 @@ export default {
     configTable: {
       type: Object,
       default: () => {}
+    },
+    tableRow: {
+      type: Object,
+      default: () => {}
     }
   },
-  setup(props, { root }) {
+  setup(props, { root, emit }) {
     const {
       pageData,
       handleSizeChange,
@@ -103,7 +116,6 @@ export default {
       GetUserList(requestData).then(res => {
         data.tableData = res.data.data.data;
         pageData.total = res.data.data.total || 10;
-        console.log(data.tableData);
       });
     };
     const init = () => {
@@ -114,6 +126,12 @@ export default {
           data.tableConfig[i] = initData[i];
         }
       }
+    };
+    const handleSelectionChange = val => {
+      let rowData = {
+        idItem: val.map(item => item.id)
+      };
+      emit("update:tableRow", rowData);
     };
     onBeforeMount(() => {
       init();
@@ -126,8 +144,17 @@ export default {
       data,
       pageData,
       handleSizeChange,
-      handleCurrentChange
+      handleCurrentChange,
+      loadData,
+      handleSelectionChange
     };
   }
 };
 </script>
+<style lang="scss" scoped>
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+</style>
