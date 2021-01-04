@@ -15,3 +15,10 @@ export function GetCityPicker(data) {
     data: data
   });
 }
+export function GetRole(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/role/",
+    data: data
+  });
+}

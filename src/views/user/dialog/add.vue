@@ -16,13 +16,24 @@
         <el-input v-model="form.title" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="地区" :label-width="formLabelWidth">
-        <Picker @listDatas="getListData"></Picker>
+        <Picker
+          @listDatas="getListData"
+          :level="['province', 'city', 'area', 'street']"
+        ></Picker>
       </el-form-item>
       <el-form-item label="是否启用" :label-width="formLabelWidth">
-        <el-input v-model="form.title" autocomplete="off"></el-input>
+        <el-radio v-model="form.roleStatus" label="1">禁用</el-radio>
+        <el-radio v-model="form.roleStatus" label="2">启用</el-radio>
       </el-form-item>
       <el-form-item label="角色" :label-width="formLabelWidth">
-        <el-input v-model="form.title" autocomplete="off"></el-input>
+        <el-checkbox-group v-model="form.roleUser" size="mini">
+          <el-checkbox
+            v-for="item in roleUser.list"
+            :label="item.role"
+            :key="item.role"
+            >{{ item.name }}</el-checkbox
+          >
+        </el-checkbox-group>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -35,6 +46,7 @@
 import Picker from "../../../components/picker";
 import { ref, reactive, onMounted } from "@vue/composition-api";
 import { AddInfo } from "../../../api/news";
+import { GetRole } from "../../../api/user";
 export default {
   components: {
     Picker
@@ -51,14 +63,11 @@ export default {
   setup(props, { root, parent }) {
     const formLabelWidth = ref("70px");
     let dialogTableVisible = ref(false);
-    let listData = reactive({
-      value1: "",
-      value2: "",
-      value3: "",
-      value4: ""
-    });
     const options = reactive({
       category: []
+    });
+    const roleUser = reactive({
+      list: []
     });
     const form = reactive({
       category: "",
@@ -66,7 +75,15 @@ export default {
       content: "",
       imgUrl: "",
       createDate: "",
-      status: ""
+      status: "",
+      roleStatus: "1",
+      listData: {
+        value1: "",
+        value2: "",
+        value3: "",
+        value4: ""
+      },
+      roleUser: []
     });
     const show = () => {
       dialogTableVisible.value = !dialogTableVisible.value;
@@ -81,13 +98,19 @@ export default {
       form.imgUrl = "";
       form.createDate = "";
       form.status = "";
+      // form.listData = {
+      //     value1: "",
+      //     value2: "",
+      //     value3: "",
+      //     value4: ""
+      // };
     };
     const close = () => {
       dialogTableVisible.value = !dialogTableVisible.value;
       setClear();
     };
     const submit = () => {
-      console.log(listData);
+      console.log(form.roleUser);
       let data = {
         categoryId: form.category,
         title: form.title,
@@ -107,16 +130,23 @@ export default {
           setClear();
         });
     };
-    const getListData = val => {
-      listData = val;
+    const getRole = () => {
+      GetRole({}).then(res => {
+        roleUser.list = res.data.data;
+      });
     };
-    onMounted(() => {});
+    const getListData = val => {
+      form.listData = val;
+    };
+    onMounted(() => {
+      getRole();
+    });
     return {
       formLabelWidth,
       dialogTableVisible,
       options,
       form,
-      listData,
+      roleUser,
       getCategory,
       show,
       submit,
