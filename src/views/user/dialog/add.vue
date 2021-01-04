@@ -149,9 +149,30 @@ export default {
       phone: "",
       region: "",
       status: "",
+      id: "",
       role: []
     });
-    const show = () => {
+    const show = data => {
+      if (data) {
+        form.username = data.username;
+        form.truename = data.truename;
+        form.password = data.password;
+        form.phone = data.phone;
+        form.region = data.region;
+        form.status = data.status;
+        form.id = data.id;
+        form.role = data.role.split(",");
+      } else {
+        form.username = "";
+        form.truename = "";
+        form.password = "";
+        form.phone = "";
+        form.region = "";
+        form.status = "";
+        form.id = "";
+        form.role = [];
+      }
+      console.log(form, "form");
       dialogTableVisible.value = !dialogTableVisible.value;
     };
     const getCategory = () => {
@@ -193,7 +214,7 @@ export default {
           requestData.password = sha1(requestData.password);
           requestData.region = JSON.stringify(requestData.region);
           setClear();
-          AddUser(data)
+          AddUser(requestData)
             .then(res => {
               root.$message({ type: "success", message: res.data.message });
               setClear();

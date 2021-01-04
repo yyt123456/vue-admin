@@ -140,7 +140,7 @@ export default {
       });
     };
     const onEdit = data => {
-      console.log(data);
+      refs["add"].show(data);
     };
     const onRefresh = () => {
       refs["TableList"].loadData();
