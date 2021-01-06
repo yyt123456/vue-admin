@@ -74,7 +74,7 @@
 <script>
 import Picker from "../../../components/picker";
 import { ref, reactive, onMounted } from "@vue/composition-api";
-import { GetRole, AddUser } from "../../../api/user";
+import { GetRole, AddUser, EditUser } from "../../../api/user";
 import sha1 from "js-sha1";
 import {
   stripscript,
@@ -112,8 +112,10 @@ export default {
       }
     };
     var validatePassword = (rule, value, callback) => {
-      form.password = stripscript(value);
-      value = form.password;
+      if (value) {
+        form.password = stripscript(value);
+        value = form.password;
+      }
       if (value === "") {
         callback(new Error("请输入密码"));
       } else if (!validatePasswordJs(value)) {
@@ -207,23 +209,40 @@ export default {
             phone: form.phone,
             region: form.region,
             status: form.status,
-            role: form.role
+            role: form.role,
+            id: form.id
           };
           let requestData = JSON.parse(JSON.stringify(data));
           requestData.role = requestData.role.join();
-          requestData.password = sha1(requestData.password);
-          requestData.region = JSON.stringify(requestData.region);
-          setClear();
-          AddUser(requestData)
-            .then(res => {
-              root.$message({ type: "success", message: res.data.message });
-              setClear();
-              emit("refresh");
-              dialogTableVisible.value = !dialogTableVisible.value;
-            })
-            .catch(() => {
-              setClear();
-            });
+          if (form.id) {
+            requestData.password
+              ? (requestData.password = sha1(requestData.password))
+              : delete requestData.password;
+            console.log(requestData);
+            EditUser(requestData)
+              .then(res => {
+                root.$message({ type: "success", message: res.data.message });
+                emit("refresh");
+                dialogTableVisible.value = !dialogTableVisible.value;
+              })
+              .catch(() => {
+                console.log(err);
+              });
+          } else {
+            requestData.region = JSON.stringify(requestData.region);
+            requestData.password = sha1(requestData.password);
+            console.log(requestData);
+            AddUser(requestData)
+              .then(res => {
+                root.$message({ type: "success", message: res.data.message });
+                setClear();
+                emit("refresh");
+                dialogTableVisible.value = !dialogTableVisible.value;
+              })
+              .catch(() => {
+                setClear();
+              });
+          }
         } else {
           console.log("error submit!!");
           return false;

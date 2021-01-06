@@ -108,11 +108,14 @@ export default {
         loadData();
       }
     );
-    let loadData = () => {
+    let loadData = val => {
       let requestData = {
         pageNumber: pageData.currentPage,
         pageSize: pageData.pageSize
       };
+      if (val) {
+        Object.assign(requestData, val);
+      }
       GetUserList(requestData).then(res => {
         data.tableData = res.data.data.data;
         pageData.total = res.data.data.total || 10;

@@ -43,3 +43,10 @@ export function UserActives(data) {
     data: data
   });
 }
+export function EditUser(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/user/edit/",
+    data: data
+  });
+}

@@ -8,7 +8,11 @@
           <div class="wrap-content">
             <el-row :gutter="16">
               <el-col :span="3">
-                <el-select v-model="data.value1" placeholder="请选择">
+                <el-select
+                  v-model="data.value1"
+                  placeholder="请选择"
+                  @change="selectData"
+                >
                   <el-option
                     v-for="(item, i) in data.options"
                     :key="i"
@@ -22,7 +26,9 @@
                 ><el-input v-model="data.value2" placeholder="请输入"></el-input
               ></el-col>
               <el-col :span="10"
-                ><el-button type="danger">搜索</el-button></el-col
+                ><el-button type="danger" @click="search"
+                  >搜索</el-button
+                ></el-col
               >
             </el-row>
           </div>
@@ -80,13 +86,13 @@ export default {
     console.log(root);
     const { confirm } = global();
     const data = reactive({
-      value1: "name",
+      value1: "truename",
       value2: "",
       tableRow: {},
       options: [
-        { value: "name", label: "姓名" },
+        { value: "truename", label: "姓名" },
         { value: "phone", label: "手机号" },
-        { value: "email", label: "邮箱" }
+        { value: "username", label: "邮箱" }
       ],
       configTable: {
         selection: true,
@@ -146,9 +152,20 @@ export default {
       refs["TableList"].loadData();
     };
     const handleSwitch = val => {
-      UserActives({ id: val.id, status: val.status }).then(() => {
-        // onRefresh()
-      });
+      UserActives({ id: val.id, status: val.status }).then(() => {});
+    };
+    const selectData = val => {
+      console.log(val);
+    };
+    const search = () => {
+      if (data.value1 && data.value2) {
+        refs["TableList"].loadData({ [data.value1]: data.value2 });
+      } else {
+        root.$message({
+          type: "warning",
+          message: "请选择关键字"
+        });
+      }
     };
     onMounted(() => {});
     return {
@@ -158,7 +175,9 @@ export default {
       onEdit,
       onRefresh,
       addUser,
-      handleSwitch
+      handleSwitch,
+      search,
+      selectData
     };
   }
 };
