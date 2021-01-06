@@ -183,7 +183,7 @@ export default {
         form.status = data.status;
         form.id = data.id;
         form.role = data.role.split(",");
-        form.btnPerm =data.btnPerm? data.btnPerm.split(","): [];
+        form.btnPerm = data.btnPerm ? data.btnPerm.split(",") : [];
       } else {
         form.username = "";
         form.truename = "";
@@ -237,12 +237,15 @@ export default {
           let requestData = JSON.parse(JSON.stringify(data));
           requestData.role = requestData.role.join();
           requestData.btnPerm = requestData.btnPerm.join();
-          console.log(requestData, 'requestData')
+          console.log(requestData, "requestData");
           if (form.id) {
             requestData.password
               ? (requestData.password = sha1(requestData.password))
               : delete requestData.password;
-              requestData.region = typeof requestData.region === 'object'? JSON.stringify(requestData.region) : requestData.region;
+            requestData.region =
+              typeof requestData.region === "object"
+                ? JSON.stringify(requestData.region)
+                : requestData.region;
             EditUser(requestData)
               .then(res => {
                 root.$message({ type: "success", message: res.data.message });
