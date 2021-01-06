@@ -24,3 +24,12 @@ export function Register(data) {
     data: data
   });
 }
+
+//获取角色
+export function GetUserRole(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/userRole/",
+    data: data
+  });
+}

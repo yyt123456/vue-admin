@@ -10,9 +10,23 @@ router.beforeEach((to, from, next) => {
       store.commit("login/SET_USERNAME", "");
       next();
     } else {
-      next();
+      //获取用户角色
+      //动态路由分配权限
+      if (store.getters["permission/roles"].length === 0) {
+        store.dispatch("permission/getUserRoles").then(res => {
+          let roles = res;
+          store.dispatch("permission/createRouters", roles).then(() => {
+            let addRouters = store.getters["permission/addRouters"];
+            let allRouters = store.getters["permission/allRouters"];
+            router.options.routes = allRouters;
+            router.addRoutes(addRouters);
+            next({ ...to, replace: true });
+          });
+        });
+      } else {
+        next();
+      }
     }
-    next();
   } else {
     if (whiteRouter.indexOf(to.path) !== -1) {
       next();

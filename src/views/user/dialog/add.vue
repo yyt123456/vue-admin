@@ -54,7 +54,7 @@
         <el-radio v-model="form.status" label="1">禁用</el-radio>
         <el-radio v-model="form.status" label="2">启用</el-radio>
       </el-form-item>
-      <el-form-item label="角色" :label-width="formLabelWidth" prop="role">
+      <el-form-item label="系统" :label-width="formLabelWidth" prop="role">
         <el-checkbox-group v-model="form.role" size="mini">
           <el-checkbox
             v-for="item in roleUser.list"
@@ -127,7 +127,7 @@ export default {
     const rules = reactive({
       username: [{ validator: validateUsername, trigger: "blur" }],
       truename: [{ validator: validateTrueName, trigger: "blur" }],
-      role: [{ required: true, trigger: "blur", message: "请选择角色" }],
+      role: [{ required: true, trigger: "blur", message: "请选择系统" }],
       password: [{ validator: validatePassword, trigger: "blur" }]
     });
     const formLabelWidth = ref("70px");
@@ -225,7 +225,7 @@ export default {
                 emit("refresh");
                 dialogTableVisible.value = !dialogTableVisible.value;
               })
-              .catch(() => {
+              .catch(err => {
                 console.log(err);
               });
           } else {
@@ -250,7 +250,7 @@ export default {
       });
     };
     const getRole = () => {
-        GetSys({}).then(res => {
+      GetSys({}).then(res => {
         roleUser.list = res.data.data;
       });
     };

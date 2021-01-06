@@ -13,7 +13,18 @@ VueRouter.prototype.replace = function push(location) {
   return originalReplace.call(this, location).catch(err => err);
 };
 import LayOut from "../views/layout/Index";
-const routes = [
+/*
+ *  1.系统路由
+ *  2.默认路由
+ * */
+
+/*
+ *  1.默认路由
+ *  2.动态路由
+ * */
+
+//默认路由
+export const defaultRouters = [
   {
     path: "/",
     name: "Home",
@@ -39,7 +50,8 @@ const routes = [
     redirect: "index",
     meta: {
       name: "控制台",
-      icon: "menu"
+      icon: "menu",
+      system: "admin"
     },
     component: LayOut,
     children: [
@@ -53,13 +65,18 @@ const routes = [
           import(/* webpackChunkName: "Index" */ "../views/console/Index")
       }
     ]
-  },
+  }
+];
+
+//动态路由
+export const AsyncRoutes = [
   {
     path: "/info",
     name: "Info",
     meta: {
       name: "信息管理",
-      icon: "info"
+      icon: "info",
+      system: "infoSystem"
     },
     component: LayOut,
     children: [
@@ -100,7 +117,8 @@ const routes = [
     name: "User",
     meta: {
       name: "用户管理",
-      icon: "user"
+      icon: "user",
+      system: "userSystem"
     },
     component: LayOut,
     children: [
@@ -118,7 +136,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes
+  routes: defaultRouters
 });
 
 export default router;
