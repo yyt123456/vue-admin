@@ -76,7 +76,8 @@ export const AsyncRoutes = [
     meta: {
       name: "信息管理",
       icon: "info",
-      system: "infoSystem"
+      system: "infoSystem",
+      roles: ["sale"]
     },
     component: LayOut,
     children: [
@@ -84,7 +85,8 @@ export const AsyncRoutes = [
         path: "/infoIndex",
         name: "infoIndex",
         meta: {
-          name: "信息列表"
+          name: "信息列表",
+          roles: ["sale"]
         },
         component: () =>
           import(/* webpackChunkName: "infoIndex" */ "../views/info/Index")
@@ -93,7 +95,8 @@ export const AsyncRoutes = [
         path: "/infoCategory",
         name: "infoCategory",
         meta: {
-          name: "信息分类"
+          name: "信息分类",
+          roles: ["sale"]
         },
         component: () =>
           import(
@@ -105,7 +108,8 @@ export const AsyncRoutes = [
         name: "infoDetail",
         hidden: true,
         meta: {
-          name: "信息详情"
+          name: "信息详情",
+          roles: ["sale"]
         },
         component: () =>
           import(/* webpackChunkName: "infoDetail" */ "../views/info/Detail")
@@ -118,7 +122,8 @@ export const AsyncRoutes = [
     meta: {
       name: "用户管理",
       icon: "user",
-      system: "userSystem"
+      system: "userSystem",
+      roles: ["sale"]
     },
     component: LayOut,
     children: [
@@ -126,7 +131,8 @@ export const AsyncRoutes = [
         path: "/userIndex",
         name: "infoIndex",
         meta: {
-          name: "用户列表"
+          name: "用户列表",
+          roles: ["sale"]
         },
         component: () =>
           import(/* webpackChunkName: "userIndex" */ "../views/user/Index")

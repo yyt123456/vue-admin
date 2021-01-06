@@ -15,6 +15,7 @@ router.beforeEach((to, from, next) => {
       if (store.getters["permission/roles"].length === 0) {
         store.dispatch("permission/getUserRoles").then(res => {
           let roles = res;
+          // store.commit('permission/GET_USER_ROLES');
           store.dispatch("permission/createRouters", roles).then(() => {
             let addRouters = store.getters["permission/addRouters"];
             let allRouters = store.getters["permission/allRouters"];

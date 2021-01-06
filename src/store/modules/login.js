@@ -33,8 +33,8 @@ const actions = {
   Exit({ commit }) {
     return new Promise(resolve => {
       removeAll();
-      commit("login/SET_TOKEN", "");
-      commit("login/SET_USERNAME", "");
+      commit("SET_TOKEN", "");
+      commit("SET_USERNAME", "");
       resolve();
     });
   }

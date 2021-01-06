@@ -1,5 +1,5 @@
 import { GetCategory, GetCategoryAll } from "./news";
-import { Message } from "element-ui";
+// import { Message } from "element-ui";
 
 export default {
   install(Vue) {
@@ -11,9 +11,9 @@ export default {
             resolve(data);
           })
           .catch(() => {
-            Message.error({
-              message: "接口请求失败"
-            });
+            // Message.error({
+            //   message: "接口请求失败"
+            // });
           });
       });
     };
@@ -49,9 +49,9 @@ export default {
             resolve(category);
           })
           .catch(() => {
-            Message.error({
-              message: "接口请求失败"
-            });
+            // Message.error({
+            //   message: "接口请求失败"
+            // });
           });
       });
     };
