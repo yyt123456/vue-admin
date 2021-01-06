@@ -64,6 +64,23 @@
           >
         </el-checkbox-group>
       </el-form-item>
+      <el-form-item label="按钮权限" :label-width="formLabelWidth">
+        <template v-if="btn.btnPerm.length > 0">
+          <div v-for="(item, i) in btn.btnPerm" :key="i">
+            <h4>{{ item.name }}</h4>
+            <template v-if="item.perm && item.perm.length > 0">
+              <el-checkbox-group v-model="form.btnPerm" size="mini">
+                <el-checkbox
+                  v-for="buttons in item.perm"
+                  :label="buttons.value"
+                  :key="buttons.value"
+                  >{{ buttons.name }}</el-checkbox
+                >
+              </el-checkbox-group>
+            </template>
+          </div>
+        </template>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close">取 消</el-button>
@@ -75,7 +92,7 @@
 import Picker from "../../../components/picker";
 import { ref, reactive, onMounted } from "@vue/composition-api";
 // import { GetSys, AddUser, EditUser } from "../../../api/user";
-import { AddUser, EditUser, GetRole } from "../../../api/user";
+import { AddUser, EditUser, GetRole, GetPermButton } from "../../../api/user";
 import sha1 from "js-sha1";
 import {
   stripscript,
@@ -153,7 +170,8 @@ export default {
       region: "",
       status: "",
       id: "",
-      role: []
+      role: [],
+      btnPerm: []
     });
     const show = data => {
       if (data) {
@@ -165,6 +183,7 @@ export default {
         form.status = data.status;
         form.id = data.id;
         form.role = data.role.split(",");
+        form.btnPerm =data.btnPerm? data.btnPerm.split(","): [];
       } else {
         form.username = "";
         form.truename = "";
@@ -174,8 +193,8 @@ export default {
         form.status = "";
         form.id = "";
         form.role = [];
+        form.btnPerm = [];
       }
-      console.log(form, "form");
       dialogTableVisible.value = !dialogTableVisible.value;
     };
     const getCategory = () => {
@@ -190,6 +209,7 @@ export default {
         form.region = "";
         form.status = "";
         form.role = [];
+        form.btnPerm = [];
         propsData.provinceValue = "";
         propsData.cityValue = "";
         propsData.areaValue = "";
@@ -211,15 +231,18 @@ export default {
             region: form.region,
             status: form.status,
             role: form.role,
+            btnPerm: form.btnPerm,
             id: form.id
           };
           let requestData = JSON.parse(JSON.stringify(data));
           requestData.role = requestData.role.join();
+          requestData.btnPerm = requestData.btnPerm.join();
+          console.log(requestData, 'requestData')
           if (form.id) {
             requestData.password
               ? (requestData.password = sha1(requestData.password))
               : delete requestData.password;
-            console.log(requestData);
+              requestData.region = typeof requestData.region === 'object'? JSON.stringify(requestData.region) : requestData.region;
             EditUser(requestData)
               .then(res => {
                 root.$message({ type: "success", message: res.data.message });
@@ -258,10 +281,19 @@ export default {
         roleUser.list = res.data.data;
       });
     };
+    let btn = reactive({
+      btnPerm: []
+    });
+    const getPermButton = () => {
+      GetPermButton({}).then(res => {
+        btn.btnPerm = res.data.data;
+      });
+    };
     const getListData = val => {
       form.region = val;
     };
     onMounted(() => {
+      getPermButton();
       getRole();
     });
     return {
@@ -272,6 +304,7 @@ export default {
       roleUser,
       propsData,
       rules,
+      btn,
       getCategory,
       show,
       submit,

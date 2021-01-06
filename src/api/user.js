@@ -58,3 +58,10 @@ export function GetSys(data) {
     data: data
   });
 }
+export function GetPermButton(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/permButton/",
+    data: data
+  });
+}
