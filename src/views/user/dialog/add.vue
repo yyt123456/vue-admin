@@ -74,7 +74,7 @@
 <script>
 import Picker from "../../../components/picker";
 import { ref, reactive, onMounted } from "@vue/composition-api";
-import { GetRole, AddUser, EditUser } from "../../../api/user";
+import { GetSys, AddUser, EditUser } from "../../../api/user";
 import sha1 from "js-sha1";
 import {
   stripscript,
@@ -250,7 +250,7 @@ export default {
       });
     };
     const getRole = () => {
-      GetRole({}).then(res => {
+        GetSys({}).then(res => {
         roleUser.list = res.data.data;
       });
     };

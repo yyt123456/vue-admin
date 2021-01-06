@@ -50,3 +50,11 @@ export function EditUser(data) {
     data: data
   });
 }
+
+export function GetSys(data) {
+    return service.request({
+        method: "post",
+        url: "devApi/system/",
+        data: data
+    });
+}

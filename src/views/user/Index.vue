@@ -158,7 +158,7 @@ export default {
       console.log(val);
     };
     const search = () => {
-      if (data.value1 && data.value2) {
+      if (data.value1) {
         refs["TableList"].loadData({ [data.value1]: data.value2 });
       } else {
         root.$message({
