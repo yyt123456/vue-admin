@@ -99,13 +99,25 @@
       ></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button @click="deleteItem(scope.row)" type="text" size="small"
+          <el-button
+            @click="deleteItem(scope.row)"
+            type="text"
+            size="small"
+            v-if="$button('info.delete')"
             >删除</el-button
           >
-          <el-button type="text" size="small" @click="openEditInfo(scope.row)"
+          <el-button
+            type="text"
+            size="small"
+            @click="openEditInfo(scope.row)"
+            v-if="$button('info.edit')"
             >编辑</el-button
           >
-          <el-button type="text" size="small" @click="goDetail(scope.row)"
+          <el-button
+            type="text"
+            size="small"
+            @click="goDetail(scope.row)"
+            v-if="$button('info.detailed')"
             >编辑详情</el-button
           >
         </template>

@@ -1,7 +1,7 @@
 import { MessageBox, Message } from "element-ui";
+import store from "../store/index";
 export default {
-  install(Vue, options) {
-    console.log(options, "options");
+  install(Vue) {
     Vue.prototype.confirm = function(params) {
       MessageBox.confirm(params.content, "提示", {
         confirmButtonText: "确定",
@@ -23,6 +23,14 @@ export default {
             message: "已取消删除"
           });
         });
+    };
+
+    Vue.prototype.$button = function(params) {
+      let data = store.getters["permission/buttons"];
+      console.log(data);
+      if (params) {
+        return data.indexOf(params) > -1;
+      }
     };
   }
 };

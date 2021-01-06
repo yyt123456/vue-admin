@@ -30,7 +30,7 @@ const mutations = {
 };
 const getters = {
   roles: state => state.roles,
-  button: state => state.buttons,
+  buttons: state => state.buttons,
   btnPerm: state => state.btnPerm,
   allRouters: state => state.allRouters,
   addRouters: state => state.addRouters
@@ -51,7 +51,6 @@ const actions = {
   createRouters({ commit }, data) {
     return new Promise(resolve => {
       let { btnPerm, button, role } = data;
-      console.log(btnPerm, button, role);
       commit("SET_BUTTON", button);
       commit("SET_BTN_PERM", btnPerm);
       let addRouters = [];
