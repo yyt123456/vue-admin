@@ -62,7 +62,6 @@ const actions = {
           // if (role.includes(item.meta.system)) {
           //   return item;
           // }
-          console.log(hasRoleList(role, item));
           if (hasRoleList(role, item)) {
             if (item.children && item.children.length > 0) {
               item.children = item.children.filter(child => {
