@@ -138,6 +138,36 @@ export const AsyncRoutes = [
           import(/* webpackChunkName: "userIndex" */ "../views/user/Index")
       }
     ]
+  },
+  {
+    path: "/page404",
+    name: "page404",
+    hidden: true,
+    meta: {
+      name: "404",
+      icon: "menu",
+      system: "admin"
+    },
+    component: LayOut,
+    children: [
+      {
+        path: "/404",
+        name: "404",
+        meta: {
+          name: "404"
+        },
+        component: () => import(/* webpackChunkName: "404" */ "../views/noPage")
+      }
+    ]
+  },
+  {
+    path: "*",
+    name: "*",
+    redirect: "404",
+    hidden: true,
+    meta: {
+      name: "404"
+    }
   }
 ];
 
