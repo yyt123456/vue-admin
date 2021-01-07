@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Message } from "element-ui";
 import { getToken, getUsername } from "./app";
-const BaseUrl = process.env.NODE_ENV === "production" ? "" : "/";
+const BaseUrl = process.env.BASE_URL;
 const service = axios.create({
   baseUrl: BaseUrl,
   timeout: 600000
