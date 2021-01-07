@@ -76,6 +76,8 @@ const actions = {
           }
         });
       }
+      addRouters.push(AsyncRoutes[AsyncRoutes.length - 1]);
+      addRouters.push(AsyncRoutes[AsyncRoutes.length - 2]);
       commit("SET_ROUTES", addRouters);
       resolve();
     });

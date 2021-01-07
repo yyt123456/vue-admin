@@ -33,3 +33,10 @@ export function GetUserRole(data) {
     data: data
   });
 }
+export function Logout(data) {
+  return service.request({
+    method: "post",
+    url: "devApi/logout/",
+    data: data
+  });
+}
