@@ -77,7 +77,7 @@ export const AsyncRoutes = [
       name: "信息管理",
       icon: "info",
       system: "infoSystem",
-      roles: ["sale"]
+      roles: ["sale"] // sale,technician,manager
     },
     component: LayOut,
     children: [
