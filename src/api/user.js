@@ -3,7 +3,7 @@ import service from "../utils/service";
 export function GetUserList(data) {
   return service.request({
     method: "post",
-    url: "devApi/user/getList/",
+    url: "/user/getList/",
     data: data
   });
 }
@@ -11,42 +11,42 @@ export function GetUserList(data) {
 export function GetCityPicker(data) {
   return service.request({
     method: "post",
-    url: "devApi/cityPicker/",
+    url: "/cityPicker/",
     data: data
   });
 }
 export function GetRole(data) {
   return service.request({
     method: "post",
-    url: "devApi/role/",
+    url: "/role/",
     data: data
   });
 }
 export function AddUser(data) {
   return service.request({
     method: "post",
-    url: "devApi/user/add/",
+    url: "/user/add/",
     data: data
   });
 }
 export function DeleteUser(data) {
   return service.request({
     method: "post",
-    url: "devApi/user/delete/",
+    url: "/user/delete/",
     data: data
   });
 }
 export function UserActives(data) {
   return service.request({
     method: "post",
-    url: "devApi/user/actives/",
+    url: "/user/actives/",
     data: data
   });
 }
 export function EditUser(data) {
   return service.request({
     method: "post",
-    url: "devApi/user/edit/",
+    url: "/user/edit/",
     data: data
   });
 }
@@ -54,14 +54,14 @@ export function EditUser(data) {
 export function GetSys(data) {
   return service.request({
     method: "post",
-    url: "devApi/system/",
+    url: "/system/",
     data: data
   });
 }
 export function GetPermButton(data) {
   return service.request({
     method: "post",
-    url: "devApi/permButton/",
+    url: "/permButton/",
     data: data
   });
 }

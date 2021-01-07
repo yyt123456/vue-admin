@@ -1,4 +1,4 @@
 const commonUrl = {
-  url: "devApi/user/getList/"
+  url: "/user/getList/"
 };
 export { commonUrl };

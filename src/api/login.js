@@ -3,7 +3,7 @@ import service from "../utils/service";
 export function GetSms(data) {
   return service.request({
     method: "post",
-    url: "devApi/getSms/",
+    url: "/getSms/",
     data: data
   });
 }
@@ -12,7 +12,7 @@ export function GetSms(data) {
 export function userLogin(data) {
   return service.request({
     method: "post",
-    url: "devApi/login/",
+    url: "/login/",
     data: data
   });
 }
@@ -20,7 +20,7 @@ export function userLogin(data) {
 export function Register(data) {
   return service.request({
     method: "post",
-    url: "devApi/register/",
+    url: "/register/",
     data: data
   });
 }
@@ -29,14 +29,14 @@ export function Register(data) {
 export function GetUserRole(data) {
   return service.request({
     method: "post",
-    url: "devApi/userRole/",
+    url: "/userRole/",
     data: data
   });
 }
 export function Logout(data) {
   return service.request({
     method: "post",
-    url: "devApi/logout/",
+    url: "/logout/",
     data: data
   });
 }

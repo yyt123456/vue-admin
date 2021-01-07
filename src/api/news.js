@@ -3,7 +3,7 @@ import service from "../utils/service";
 export function AddInfo(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/add/",
+    url: "/news/add/",
     data: data
   });
 }
@@ -11,7 +11,7 @@ export function AddInfo(data) {
 export function EditInfo(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/editInfo/",
+    url: "/news/editInfo/",
     data: data
   });
 }
@@ -19,7 +19,7 @@ export function EditInfo(data) {
 export function DeleteInfo(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/deleteInfo/",
+    url: "/news/deleteInfo/",
     data: data
   });
 }
@@ -27,7 +27,7 @@ export function DeleteInfo(data) {
 export function AddFirstCategory(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/addFirstCategory/",
+    url: "/news/addFirstCategory/",
     data: data
   });
 }
@@ -35,7 +35,7 @@ export function AddFirstCategory(data) {
 export function AddChildCategory(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/addChildrenCategory/",
+    url: "/news/addChildrenCategory/",
     data: data
   });
 }
@@ -43,35 +43,35 @@ export function AddChildCategory(data) {
 export function GetList(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/getList/",
+    url: "/news/getList/",
     data: data
   });
 }
 export function GetCategory(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/getCategory/",
+    url: "/news/getCategory/",
     data: data
   });
 }
 export function GetCategoryAll(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/getCategoryAll/",
+    url: "/news/getCategoryAll/",
     data: data
   });
 }
 export function EditCategory(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/editCategory/",
+    url: "/news/editCategory/",
     data: data
   });
 }
 export function DeleteCategory(data) {
   return service.request({
     method: "post",
-    url: "devApi/news/deleteCategory/",
+    url: "/news/deleteCategory/",
     data: data
   });
 }
