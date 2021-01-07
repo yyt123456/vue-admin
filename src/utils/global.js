@@ -26,7 +26,7 @@ export default {
     };
 
     Vue.prototype.$button = function(params) {
-      let data = store.getters["permission/buttons"];
+      let data = store.getters["permission/btnPerm"];
       console.log(data);
       if (params) {
         return data.indexOf(params) > -1;

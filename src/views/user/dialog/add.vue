@@ -250,6 +250,7 @@ export default {
               .then(res => {
                 root.$message({ type: "success", message: res.data.message });
                 emit("refresh");
+                setClear();
                 dialogTableVisible.value = !dialogTableVisible.value;
               })
               .catch(err => {

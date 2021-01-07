@@ -103,21 +103,21 @@
             @click="deleteItem(scope.row)"
             type="text"
             size="small"
-            v-if="$button('info.delete')"
+            v-if="$button('info:del')"
             >删除</el-button
           >
           <el-button
             type="text"
             size="small"
             @click="openEditInfo(scope.row)"
-            v-if="$button('info.edit')"
+            v-if="$button('info:edit')"
             >编辑</el-button
           >
           <el-button
             type="text"
             size="small"
             @click="goDetail(scope.row)"
-            v-if="$button('info.detailed')"
+            v-if="$button('info:detailed')"
             >编辑详情</el-button
           >
         </template>
