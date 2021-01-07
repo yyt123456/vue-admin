@@ -4,6 +4,7 @@
       <img src="../../../assets/logo.png" alt="" width="50" />
     </div>
     <el-menu
+      :default-active="currentRoute"
       :collapse="isCollapse"
       background-color="transparent"
       text-color="#fff"
@@ -44,10 +45,15 @@ export default {
     const isCollapse = computed(() => {
       return root.$store.state.app.isCollapse;
     });
+    const currentRoute = computed(() => {
+      let route = root.$route;
+      return route.path;
+    });
     onMounted(() => {});
     return {
       isCollapse,
-      routes
+      routes,
+      currentRoute
     };
   }
 };
