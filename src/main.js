@@ -11,6 +11,7 @@ import VueStorage from "vue-ls";
 //自定义全局方法
 import global from "./utils/global";
 import common from "./api/common";
+import directive from "./utils/directive";
 
 //自定义全局组件
 import "./icons";
@@ -23,6 +24,7 @@ Vue.use(VueStorage, {
 });
 Vue.use(ElementUI);
 Vue.use(global);
+Vue.use(directive);
 Vue.use(common);
 Vue.use(VueCompositionApi);
 Vue.prototype.$moment = moment;

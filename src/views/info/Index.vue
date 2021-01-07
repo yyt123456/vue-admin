@@ -99,6 +99,9 @@
       ></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
+          <el-button type="text" size="small" v-btn-perm="'info:del'"
+            >自定义测试</el-button
+          >
           <el-button
             @click="deleteItem(scope.row)"
             type="text"
@@ -324,5 +327,8 @@ export default {
   &.keywords {
     @include labelDom(left, 60, 40);
   }
+}
+.hidden-button {
+  display: none;
 }
 </style>
