@@ -2,7 +2,11 @@
   <div class="main">
     <div class="main-content">
       <div class="content">
-        <router-view></router-view>
+        <!--<router-view></router-view>-->
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
       </div>
     </div>
   </div>

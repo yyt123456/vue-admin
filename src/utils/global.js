@@ -27,9 +27,13 @@ export default {
 
     Vue.prototype.$button = function(params) {
       let data = store.getters["permission/btnPerm"];
-      console.log(data);
-      if (params) {
-        return data.indexOf(params) > -1;
+      let roles = store.getters["permission/roles"].role;
+      if (roles.includes("admin")) {
+        return true;
+      } else {
+        if (params) {
+          return data.indexOf(params) > -1;
+        }
       }
     };
   }
