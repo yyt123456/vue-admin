@@ -2,7 +2,11 @@ import router from "../router";
 import { getToken, removeAll } from "../utils/app";
 import store from "../store/index";
 const whiteRouter = ["/login"];
+import NProgress from "nprogress";
+import 'nprogress/nprogress.css'
+NProgress.configure({ minimum: 0.1 });
 router.beforeEach((to, from, next) => {
+    NProgress.start();
   if (getToken()) {
     if (to.path === "/login") {
       removeAll();
@@ -35,4 +39,8 @@ router.beforeEach((to, from, next) => {
       next("/login");
     }
   }
+});
+
+router.afterEach(() => {
+    NProgress.done();
 });
